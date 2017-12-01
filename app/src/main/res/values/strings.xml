@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">StewardPro</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="crash_toast_text">程序崩溃了！</string>
+    <string name="crash_dialog_text">感谢您的支持</string>
+    <string name="crash_dialog_title">发送崩溃日志</string>
+    <string name="crash_dialog_ok_toast">发送成功</string>
+</resources>

@@ -1,0 +1,27 @@
+package com.nodream.xskj.module.login
+
+import com.nodream.xskj.commonlib.base.BasePresenter
+import com.nodream.xskj.commonlib.base.BaseView
+import com.nodream.xskj.module.login.model.LoginRequest
+
+/**
+ * Created by nodream on 2017/11/27.
+ */
+interface LoginContract {
+    interface View : BaseView{
+        fun isActive():Boolean
+        fun getUserNameFormView():String
+        fun getPassWordFormView():String
+        fun goToHomeView()
+    }
+    interface Presenter : BasePresenter{
+        fun login()
+        fun loginSuccess()
+        fun loginFail(str: String)
+    }
+    interface Model {
+        fun setUserName()
+        fun setToken()
+        fun postLogin(loginRequest: LoginRequest): Boolean
+    }
+}
