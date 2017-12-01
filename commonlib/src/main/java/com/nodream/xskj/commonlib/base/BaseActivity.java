@@ -34,4 +34,9 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
     public void showFailTip(String des) {
         ToastUtil.showToast(this,des);
     }
+
+    @Override
+    public void showProgress(boolean show) {
+
+    }
 }

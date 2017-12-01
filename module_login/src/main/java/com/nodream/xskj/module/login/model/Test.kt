@@ -29,7 +29,6 @@ class Test : LoginContract.Model {
     override fun postLogin(loginRequest: LoginRequest): Boolean {
         NetClient.getInstance().createBaseApi().httpGet(
                 "",
-                null,
                 object : BaseObserver<LoginResponse>() {
 
                     override fun onSuccess(`object`: LoginResponse) {

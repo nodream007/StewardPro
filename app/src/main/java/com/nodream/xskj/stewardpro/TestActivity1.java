@@ -18,12 +18,6 @@ public class TestActivity1 extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        RetrofitClient.getInstance(this).createBaseApi().httpGet("", null, new BaseObserver() {
-            @Override
-            protected void onSuccess(String o) {
-                Log.d("tt",o);
-            }
 
-        });
     }
 }
