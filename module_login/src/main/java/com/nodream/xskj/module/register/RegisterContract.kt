@@ -3,6 +3,7 @@ package com.nodream.xskj.module.register
 import com.nodream.xskj.commonlib.base.BasePresenter
 import com.nodream.xskj.commonlib.base.BaseView
 import com.nodream.xskj.module.login.model.LoginRequest
+import com.nodream.xskj.module.register.model.RegisterRequest
 
 /**
  * Created by nodream on 2017/11/27.
@@ -15,8 +16,9 @@ interface RegisterContract {
         fun getInviteCode(): String
     }
     interface Presenter: BasePresenter {
+        fun register()
     }
     interface Model {
-        fun postRegister(loginRequest: LoginRequest): Boolean
+        fun postRegister(registerRequest: RegisterRequest): Boolean
     }
 }

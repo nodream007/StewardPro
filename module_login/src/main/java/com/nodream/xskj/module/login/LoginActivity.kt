@@ -24,6 +24,7 @@ import android.widget.TextView
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.inputmethod.InputMethodManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -48,7 +49,7 @@ class LoginActivity : BaseActivity(), LoginContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        init()
         mLoginPresenter = LoginPresenter(this)
 //        Logger.e("eeeee")
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
@@ -63,6 +64,11 @@ class LoginActivity : BaseActivity(), LoginContract.View{
         login_to_register.setOnClickListener{
             ARouter.getInstance().build("/login/registeractivity").navigation()
         }
+    }
+    private fun init() {
+//        val drawable1: Drawable = resources.getDrawable(R.mipmap.login_user)
+//        drawable1.setBounds(15, 15, 20, 20)//第一0是距左边距离，第二0是距上边距离，40分别是长宽
+//        username.setCompoundDrawables(drawable1, null, null, null);//只放左边
     }
 
     override fun isActive(): Boolean {
