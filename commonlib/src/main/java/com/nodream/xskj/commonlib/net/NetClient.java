@@ -1,15 +1,21 @@
 package com.nodream.xskj.commonlib.net;
 
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -97,6 +103,17 @@ public class NetClient {
     public void httpPost(String url, Map parameters, BaseObserver baseObserver) {
         Log.i("NetClient","httpGet ");
         Observable<BaseResponse> observable = apiService.executePost(url, parameters);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseObserver);
+    }
+    public void upload(String url, BaseObserver baseObserver) {
+
+        File file = new File(Environment.getExternalStorageDirectory(), "icon.png");
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"),file);
+        MultipartBody.Part boby =
+                MultipartBody.Part.createFormData("picture",file.getName(),requestBody);
+        Observable<ResponseBody> observable = apiService.uploads(url, boby);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseObserver);

@@ -9,8 +9,12 @@ import com.nodream.xskj.module.login.model.LoginRequest
  */
 interface RegisterContract {
     interface View : BaseView {
+        fun getPhoneNumber(): String
+        fun getVerCode(): String
+        fun getPassword(): String
+        fun getInviteCode(): String
     }
-    interface Presenter : BasePresenter {
+    interface Presenter: BasePresenter {
     }
     interface Model {
         fun postRegister(loginRequest: LoginRequest): Boolean

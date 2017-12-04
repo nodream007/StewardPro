@@ -26,8 +26,10 @@ import android.Manifest.permission.READ_CONTACTS
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.nodream.xskj.commonlib.base.BaseActivity
 import com.nodream.xskj.commonlib.utils.ToastUtil
+import com.nodream.xskj.module.R
 import com.nodream.xskj.module.login.presenter.LoginPresenter
 import com.orhanobut.logger.Logger
 
@@ -36,7 +38,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 /**
  * A login screen that offers login via email/password.
  */
-@Route(path = "/steward/login")
+@Route(path = "/login/loginactivity")
 class LoginActivity : BaseActivity(), LoginContract.View{
 
     private var isActive: Boolean = true
@@ -58,6 +60,9 @@ class LoginActivity : BaseActivity(), LoginContract.View{
         })
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
+        login_to_register.setOnClickListener{
+            ARouter.getInstance().build("/login/registeractivity").navigation()
+        }
     }
 
     override fun isActive(): Boolean {

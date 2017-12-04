@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/commonlib" />
             <option value="$PROJECT_DIR$/module_login" />
             <option value="$PROJECT_DIR$/module_main" />
+            <option value="$PROJECT_DIR$/module_my" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

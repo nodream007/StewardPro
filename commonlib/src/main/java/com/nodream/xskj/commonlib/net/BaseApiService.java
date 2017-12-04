@@ -3,6 +3,7 @@ package com.nodream.xskj.commonlib.net;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -58,5 +59,10 @@ public interface BaseApiService {
     @GET
     Observable<ResponseBody> downloadFile(@Url String fileUrl);
 
+    @Multipart
+    @POST()
+    Observable<ResponseBody> uploads(
+            @Url String url,
+            @Part() MultipartBody.Part file);
 
 }

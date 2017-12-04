@@ -37,7 +37,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    api project(':commonlib')
+    implementation project(':commonlib')
     kapt 'com.alibaba:arouter-compiler:1.1.4'
 
     testImplementation 'junit:junit:4.12'

@@ -10,5 +10,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".home.HomeActivity"
+            android:theme="@style/HomeTheme"/>
+
     </application>
 </manifest>
