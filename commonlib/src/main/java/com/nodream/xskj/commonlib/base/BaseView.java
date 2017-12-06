@@ -6,6 +6,4 @@ package com.nodream.xskj.commonlib.base;
 
 public interface BaseView {
     void showFailTip(String des);
-
-    void showProgress(boolean show);
 }

@@ -74,11 +74,6 @@ public class NetClient {
         return this;
     }
 
-    public BaseApiService createService() {
-        apiService = create(BaseApiService.class);
-        return apiService;
-    }
-
     public  <T> T create(final Class<T> service) {
         if (service == null) {
             throw new RuntimeException("Api service is null!");
@@ -95,7 +90,7 @@ public class NetClient {
     }
     public void httpGet(String url, @NonNull Map parameters, BaseObserver baseObserver) {
         Log.i("NetClient","httpGet ");
-        Observable<BaseResponse> observable = apiService.executeGet(url);
+        Observable<BaseResponse> observable = apiService.executeGet(url,parameters);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseObserver);
@@ -103,6 +98,13 @@ public class NetClient {
     public void httpPost(String url, Map parameters, BaseObserver baseObserver) {
         Log.i("NetClient","httpGet ");
         Observable<BaseResponse> observable = apiService.executePost(url, parameters);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(baseObserver);
+    }
+    public void httpPost(String url, Map parameters,BaseApiService service, BaseObserver baseObserver) {
+        Log.i("NetClient","httpGet ");
+        Observable<BaseResponse> observable = service.executePost(url, parameters);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(baseObserver);

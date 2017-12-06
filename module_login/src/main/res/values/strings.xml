@@ -5,14 +5,9 @@
     <string name="prompt_email">请输入手机号码</string>
     <string name="prompt_password">请输入6-18位登录密码</string>
     <string name="action_sign_in">登录</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-
+    <string name="error_invalid_password">密码长度不符合要求</string>
+    <string name="error_field_phone">手机号不能为空</string>
+    <string name="error_field_password">密码不能为空</string>
+    <string name="error_field_ver">验证码不能为空</string>
     <string name="login_logo_title">让装修省心快乐起来</string>
 </resources>

@@ -1,33 +1,32 @@
 package com.nodream.xskj.module.login.presenter
 
 import android.content.Context
-import com.nodream.xskj.commonlib.net.RetrofitClient
 import com.nodream.xskj.module.login.LoginContract
 import com.nodream.xskj.module.login.model.LoginModel
 import com.nodream.xskj.module.login.model.LoginRequest
-import com.nodream.xskj.module.login.model.Test
-import org.jetbrains.annotations.NotNull
+import com.nodream.xskj.module.login.model.LoginResponse
 
 /**
  * Created by nodream on 2017/11/27.
  */
-class LoginPresenter(val view: LoginContract.View): LoginContract.Presenter {
+class LoginPresenter(val view: LoginContract.View, private val context: Context) : LoginContract.Presenter, LoginModel.ModelCallBack {
+
+
+    override fun onSuccess(loginResponse: LoginResponse) {
+        mLoginModel.saveUserId(loginResponse.id)
+    }
 
     private val mLoginModel: LoginModel = LoginModel()
 
-    override fun start() {
+    override fun start(context: Context) {
 
     }
 
     override fun login() {
-        view.showProgress(true)
+//        view.showProgress(true)
         val mLoginRequest = LoginRequest(view.getUserNameFormView(),
                 view.getPassWordFormView())
-        LoginModel().postLogin(mLoginRequest)
-//        if(mLoginModel.postLogin(mLoginRequest)) {
-//            loginSuccess()
-//        }
-
+        mLoginModel.postLogin(mLoginRequest, this,context)
     }
 
     override fun loginSuccess() {
@@ -37,8 +36,5 @@ class LoginPresenter(val view: LoginContract.View): LoginContract.Presenter {
     override fun loginFail(str: String) {
         view.showFailTip(str)
     }
-    private fun isPasswordValid(password: String): Boolean {
-        //TODO: Replace this with your own logic
-        return password.length > 4
-    }
+
 }

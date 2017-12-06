@@ -8,6 +8,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -24,7 +25,7 @@ import retrofit2.http.Url;
 
 public interface BaseApiService {
 
-    public static final String Base_URL = "http://api.douban.com/v2/movie/";
+    public static final String Base_URL = "http://dsn.apizza.cc/mock/0579e020ad821aa0745ae8625793354c/app/rest/";
     @GET("{url}")
     Observable<BaseResponse> executeGet(
             @Path("url") String url,
@@ -35,10 +36,10 @@ public interface BaseApiService {
             @Path("url") String url
     );
 
-
-    @POST("{url}")
-    Observable<ResponseBody> executePost(
-            @Path("url") String url,
+    @FormUrlEncoded
+    @POST
+    Observable<BaseResponse> executePost(
+            @Url String url,
             //  @Header("") String authorization,
             @FieldMap Map<String, String> maps);
 

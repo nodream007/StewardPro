@@ -1,7 +1,9 @@
 package com.nodream.xskj.module.login
 
+import android.content.Context
 import com.nodream.xskj.commonlib.base.BasePresenter
 import com.nodream.xskj.commonlib.base.BaseView
+import com.nodream.xskj.module.login.model.LoginModel
 import com.nodream.xskj.module.login.model.LoginRequest
 
 /**
@@ -20,8 +22,8 @@ interface LoginContract {
         fun loginFail(str: String)
     }
     interface Model {
-        fun setUserName()
-        fun setToken()
-        fun postLogin(loginRequest: LoginRequest): Boolean
+        fun saveUserId(id: Int)
+        fun saveToken(token: String)
+        fun postLogin(loginRequest: LoginRequest, modelCallBack: LoginModel.ModelCallBack, context: Context)
     }
 }

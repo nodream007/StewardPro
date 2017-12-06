@@ -35,8 +35,10 @@ dependencies {
     api 'com.alibaba:arouter-api:1.2.4'
     //日志
     api 'com.orhanobut:logger:1.15'//2.1.1 在android 7.0上不显示
+    // 改变状态栏
+//    api 'com.jaeger.statusbarutil:library:1.4.0'
     //retrofit网络请求
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3+'

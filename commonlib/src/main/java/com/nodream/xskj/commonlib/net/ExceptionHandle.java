@@ -17,6 +17,7 @@ import retrofit2.HttpException;
 
 public class ExceptionHandle {
 
+    private static final int AUTHENTICATION = 307;
     private static final int UNAUTHORIZED = 401;
     private static final int FORBIDDEN = 403;
     private static final int NOT_FOUND = 404;
@@ -32,16 +33,35 @@ public class ExceptionHandle {
             HttpException httpException = (HttpException) e;
             ex = new ResponseThrowable(e, ERROR.HTTP_ERROR);
             switch (httpException.code()) {
+                case AUTHENTICATION:
+                    ex.message = "307：授权失败";
+                    break;
                 case UNAUTHORIZED:
+                    ex.message = "401：网络错误";
+                    break;
                 case FORBIDDEN:
+                    ex.message = "403：网络错误";
+                    break;
                 case NOT_FOUND:
+                    ex.message = "404：未找到";
+                    break;
                 case REQUEST_TIMEOUT:
+                    ex.message = "408：请求超时";
+                    break;
                 case GATEWAY_TIMEOUT:
+                    ex.message = "504：网关超时";
+                    break;
                 case INTERNAL_SERVER_ERROR:
+                    ex.message = "500：网络错误";
+                    break;
                 case BAD_GATEWAY:
+                    ex.message = "502：网关错误";
+                    break;
                 case SERVICE_UNAVAILABLE:
+                    ex.message = "503：网络错误";
+                    break;
                 default:
-                    ex.message = "网络错误";
+                    ex.message = "其他网络错误--" + httpException.code();
                     break;
             }
             return ex;
@@ -64,7 +84,7 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
             ex.message = "证书验证失败";
             return ex;
-        } else if (e instanceof ConnectTimeoutException){
+        } else if (e instanceof ConnectTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;
@@ -72,8 +92,7 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;
-        }
-        else {
+        } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
             return ex;

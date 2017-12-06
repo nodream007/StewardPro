@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
+import com.nodream.xskj.commonlib.utils.ProgressDialogUtil;
 import com.nodream.xskj.commonlib.utils.ToastUtil;
 import com.orhanobut.logger.Logger;
 
@@ -20,45 +21,30 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
     private static final String TAG = "BaseObserver";
     private Context context;
 
-    public BaseObserver() {
-
-    }
     protected BaseObserver(Context context) {
         this.context = context.getApplicationContext();
     }
 
     @Override
     public void onSubscribe(Disposable d) {
-
+//        ProgressDialogUtil.showProgressDialog(context);
     }
 
     @Override
     public void onNext(BaseResponse<T> tBaseResponse) {
+        ProgressDialogUtil.closeProgressDialog();
         if (tBaseResponse.isOK()) {
             onSuccess(tBaseResponse.getData());
         } else {
             onErrorShow(tBaseResponse.getResultMsg());
         }
     }
-    //    @Override
-//    public void onNext(T response) {
-//        if (response.isOK()) {
-////            String t = response.getResultMsg();
-//            onSuccess(response.getData());
-//        } else {
-//            onErrorShow(response.getResultMsg());
-//        }
-//    }
 
     @Override
     public void onError(Throwable e) {
+        ProgressDialogUtil.closeProgressDialog();
         Logger.e(e,e.getMessage());
-        if (e instanceof ExceptionHandle.ResponseThrowable) {
-            onErrorHandle((ExceptionHandle.ResponseThrowable) e);
-        } else {
-            onErrorHandle(new ExceptionHandle.ResponseThrowable(e, ExceptionHandle.ERROR.UNKNOWN));
-        }
-
+        onErrorHandle(e);
     }
 
     @Override
@@ -68,9 +54,10 @@ public abstract class BaseObserver<T> implements Observer<BaseResponse<T>> {
 
     protected abstract void onSuccess(T object);
 
-    public void onErrorHandle(ExceptionHandle.ResponseThrowable e) {
-        ExceptionHandle.handleException(e);
-    };
+    public void onErrorHandle(Throwable e) {
+        ExceptionHandle.ResponseThrowable responseThrowable = ExceptionHandle.handleException(e);
+        ToastUtil.showToast(context,responseThrowable.message);
+    }
 
     protected void onErrorShow(String msg) {
         ToastUtil.showToast(context,msg);

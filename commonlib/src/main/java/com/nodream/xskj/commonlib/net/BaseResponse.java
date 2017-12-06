@@ -6,24 +6,24 @@ package com.nodream.xskj.commonlib.net;
 
 public class BaseResponse<T> {
 
-    private int code;
-    private String msg;
+    private int resultCode;
+    private String resultMsg;
     private T data;
 
     public int getResultCode() {
-        return code;
+        return resultCode;
     }
 
     public void setResultCode(int resultCode) {
-        this.code = resultCode;
+        this.resultCode = resultCode;
     }
 
     public String getResultMsg() {
-        return msg;
+        return resultMsg;
     }
 
     public void setResultMsg(String resultMsg) {
-        this.msg = resultMsg;
+        this.resultMsg = resultMsg;
     }
 
     public T getData() {
@@ -35,6 +35,6 @@ public class BaseResponse<T> {
     }
 
     public boolean isOK() {
-        return code == 5000;
+        return resultCode == 2000;
     }
 }

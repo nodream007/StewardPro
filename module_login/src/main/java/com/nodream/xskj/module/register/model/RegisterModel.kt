@@ -1,26 +1,36 @@
 package com.nodream.xskj.module.register.model
 
+import android.content.Context
 import com.nodream.xskj.commonlib.net.BaseObserver
 import com.nodream.xskj.commonlib.net.NetClient
-import com.nodream.xskj.module.login.model.LoginRequest
-import com.nodream.xskj.module.login.model.LoginResponse
 import com.nodream.xskj.module.register.RegisterContract
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by nodream on 2017/12/4.
  */
-class RegisterModel: RegisterContract.Model{
-    override fun postRegister(registerRequest: RegisterRequest): Boolean {
-        NetClient.getInstance().createBaseApi().httpPost(
-                "",
-                null,
-                object : BaseObserver<RegisterResponse>() {
-                    override fun onSuccess(`object`: RegisterResponse) {
+class RegisterModel : RegisterContract.Model {
 
+    override fun postRegister(registerRequest: RegisterRequest, modelCallBack: ModelCallBack,
+                              context: Context) {
+        val parmsMap = mutableMapOf<String, String?>()
+        parmsMap["mobile"] = registerRequest.mobile
+        parmsMap["password"] = registerRequest.passWord
+        parmsMap["verifyCode"] = registerRequest.verCode
+        NetClient.getInstance().create(RegisterService::class.java)
+                .register("user/register", parmsMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : BaseObserver<RegisterResponse>(context) {
+                    override fun onSuccess(registerResponse: RegisterResponse) {
+                        modelCallBack.onSuccess(registerResponse)
                     }
                 })
+    }
 
-        return true
+    interface ModelCallBack {
+        fun onSuccess(registerResponse: RegisterResponse)
     }
 
 }

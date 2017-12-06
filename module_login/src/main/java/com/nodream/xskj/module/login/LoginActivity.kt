@@ -25,10 +25,13 @@ import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import android.view.inputmethod.InputMethodManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.nodream.xskj.commonlib.base.BaseActivity
+import com.nodream.xskj.commonlib.utils.ProgressDialogUtil
 import com.nodream.xskj.commonlib.utils.ToastUtil
 import com.nodream.xskj.module.R
 import com.nodream.xskj.module.login.presenter.LoginPresenter
@@ -44,14 +47,12 @@ class LoginActivity : BaseActivity(), LoginContract.View{
 
     private var isActive: Boolean = true
 
-    private var mLoginPresenter: LoginContract.Presenter? = null
+//    private var mLoginPresenter: LoginContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init()
-        mLoginPresenter = LoginPresenter(this)
-//        Logger.e("eeeee")
         password.setOnEditorActionListener(TextView.OnEditorActionListener { _, id, _ ->
             if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                 attemptLogin()
@@ -64,11 +65,12 @@ class LoginActivity : BaseActivity(), LoginContract.View{
         login_to_register.setOnClickListener{
             ARouter.getInstance().build("/login/registeractivity").navigation()
         }
+        login_back.setOnClickListener{
+            finish()
+        }
     }
     private fun init() {
-//        val drawable1: Drawable = resources.getDrawable(R.mipmap.login_user)
-//        drawable1.setBounds(15, 15, 20, 20)//第一0是距左边距离，第二0是距上边距离，40分别是长宽
-//        username.setCompoundDrawables(drawable1, null, null, null);//只放左边
+//        LoginPresenter(this).start(this)
     }
 
     override fun isActive(): Boolean {
@@ -105,7 +107,7 @@ class LoginActivity : BaseActivity(), LoginContract.View{
      * errors are presented and no actual login attempt is made.
      */
     private fun attemptLogin() {
-
+        key()
         // Reset errors.
         username.error = null
         password.error = null
@@ -119,127 +121,73 @@ class LoginActivity : BaseActivity(), LoginContract.View{
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(usernameStr)) {
-            username.error = getString(R.string.error_field_required)
+            username.error = getString(R.string.error_field_phone)
             focusView = username
             cancel = true
         }
-
-        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(passwordStr)) {
+            username.error = getString(R.string.error_field_password)
+            focusView = username
+            cancel = true
+        }
         if (!TextUtils.isEmpty(passwordStr) && !isPasswordValid(passwordStr)) {
             password.error = getString(R.string.error_invalid_password)
             focusView = password
             cancel = true
         }
-
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView?.requestFocus()
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true)
-            LoginPresenter(this).login()
-//            mAuthTask = UserLoginTask(emailStr, passwordStr)
-//            mAuthTask!!.execute(null as Void?)
+//            ProgressDialogUtil.showProgressDialog(this)
+            LoginPresenter(this,this).login()
         }
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        //TODO: Replace this with your own logic
-        return email.contains("@")
-    }
 
     private fun isPasswordValid(password: String): Boolean {
-        //TODO: Replace this with your own logic
-        return password.length > 4
+        return password.length in 6..18
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    override fun showProgress(show: Boolean) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-
-            login_form.visibility = if (show) View.GONE else View.VISIBLE
-            login_form.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha((if (show) 0 else 1).toFloat())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            login_form.visibility = if (show) View.GONE else View.VISIBLE
-                        }
-                    })
-
-            login_progress.visibility = if (show) View.VISIBLE else View.GONE
-            login_progress.animate()
-                    .setDuration(shortAnimTime)
-                    .alpha((if (show) 1 else 0).toFloat())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            login_progress.visibility = if (show) View.VISIBLE else View.GONE
-                        }
-                    })
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            login_progress.visibility = if (show) View.VISIBLE else View.GONE
-            login_form.visibility = if (show) View.GONE else View.VISIBLE
-        }
+    private fun key() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS)
     }
-
 
 //    /**
-//     * Represents an asynchronous login/registration task used to authenticate
-//     * the user.
+//     * Shows the progress UI and hides the login form.
 //     */
-//    inner class UserLoginTask internal constructor(private val mEmail: String, private val mPassword: String) : AsyncTask<Void, Void, Boolean>() {
+//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+//    fun showProgress(show: Boolean) {
+//        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+//        // for very easy animations. If available, use these APIs to fade-in
+//        // the progress spinner.
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+//            val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 //
-//        override fun doInBackground(vararg params: Void): Boolean? {
-//            // TODO: attempt authentication against a network service.
+//            login_form.visibility = if (show) View.GONE else View.VISIBLE
+//            login_form.animate()
+//                    .setDuration(shortAnimTime)
+//                    .alpha((if (show) 0 else 1).toFloat())
+//                    .setListener(object : AnimatorListenerAdapter() {
+//                        override fun onAnimationEnd(animation: Animator) {
+//                            login_form.visibility = if (show) View.GONE else View.VISIBLE
+//                        }
+//                    })
 //
-//            try {
-//                var imm:InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//                imm.hideSoftInputFromWindow(window.decorView.windowToken, 0);
-//                // Simulate network access.
-//                Thread.sleep(5000)
-//            } catch (e: InterruptedException) {
-//                return false
-//            }
-//
-//            return DUMMY_CREDENTIALS
-//                    .map { it.split(":") }
-//                    .firstOrNull { it[0] == mEmail }
-//                    ?.let {
-//                        // Account exists, return true if the password matches.
-//                        it[1] == mPassword
-//                    }
-//                    ?: true
-//        }
-//
-//        override fun onPostExecute(success: Boolean?) {
-//            mAuthTask = null
-//            showProgress(false)
-//
-//            if (success!!) {
-////                finish()
-//                ToastUtil.showToast(this@LoginActivity, "success")
-//            } else {
-//                password.error = getString(R.string.error_incorrect_password)
-//                password.requestFocus()
-//            }
-//        }
-//
-//        override fun onCancelled() {
-//            mAuthTask = null
-//            showProgress(false)
+//            login_progress.visibility = if (show) View.VISIBLE else View.GONE
+//            login_progress.animate()
+//                    .setDuration(shortAnimTime)
+//                    .alpha((if (show) 1 else 0).toFloat())
+//                    .setListener(object : AnimatorListenerAdapter() {
+//                        override fun onAnimationEnd(animation: Animator) {
+//                            login_progress.visibility = if (show) View.VISIBLE else View.GONE
+//                        }
+//                    })
+//        } else {
+//            // The ViewPropertyAnimator APIs are not available, so simply show
+//            // and hide the relevant UI components.
+//            login_progress.visibility = if (show) View.VISIBLE else View.GONE
+//            login_form.visibility = if (show) View.GONE else View.VISIBLE
 //        }
 //    }
-
-
 }
