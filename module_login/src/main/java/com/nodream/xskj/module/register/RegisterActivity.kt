@@ -15,7 +15,12 @@ import kotlinx.android.synthetic.main.activity_register.*
  * Created by nodream on 2017/11/30.
  */
 @Route(path = "/login/registeractivity")
-class RegisterActivity: BaseActivity(), RegisterContract.View {
+class RegisterActivity : BaseActivity<RegisterContract.View, RegisterPresenter>(), RegisterContract.View {
+
+    override fun createPresenter(): RegisterPresenter {
+        return RegisterPresenter(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 设置顶部状态栏为深色
@@ -25,21 +30,22 @@ class RegisterActivity: BaseActivity(), RegisterContract.View {
         setContentView(R.layout.activity_register)
         setRegBtnBg(false)
 
-        reg_getver_btn.setOnClickListener{
+        reg_getver_btn.setOnClickListener {
             setRegBtnBg(true)
-            gattemptVerCode()
+            attemptVerCode()
         }
 
-        reg_ok_btn.setOnClickListener{
+        reg_ok_btn.setOnClickListener {
             attemptRegister()
         }
 
-        back.setOnClickListener{
+        back.setOnClickListener {
             finish()
         }
 
 
     }
+
     override fun getPhoneNumber(): String {
         return reg_phone_text.text.toString()
     }
@@ -86,12 +92,13 @@ class RegisterActivity: BaseActivity(), RegisterContract.View {
         }
         if (cancel) {
             focusView?.requestFocus()
-        }else {
-            RegisterPresenter(this,this).register()
+        } else {
+            presenter.register()
         }
 
     }
-    private fun gattemptVerCode() {
+
+    private fun attemptVerCode() {
 
     }
 

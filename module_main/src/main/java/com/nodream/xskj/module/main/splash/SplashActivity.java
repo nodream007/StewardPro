@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.nodream.xskj.commonlib.base.BaseActivity;
+import com.nodream.xskj.commonlib.base.BasePresenter;
 import com.nodream.xskj.module.main.home.HomeActivity;
 
 /**
@@ -20,5 +21,10 @@ public class SplashActivity extends BaseActivity {
         ARouter.getInstance().build("/main/homeactivity").navigation();
 //        startActivity(new Intent(this,HomeActivity.class));
         this.finish();
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 }

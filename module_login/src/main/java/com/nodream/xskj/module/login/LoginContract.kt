@@ -1,8 +1,7 @@
 package com.nodream.xskj.module.login
 
 import android.content.Context
-import com.nodream.xskj.commonlib.base.BasePresenter
-import com.nodream.xskj.commonlib.base.BaseView
+import com.nodream.xskj.commonlib.base.IBaseView
 import com.nodream.xskj.module.login.model.LoginModel
 import com.nodream.xskj.module.login.model.LoginRequest
 
@@ -10,13 +9,13 @@ import com.nodream.xskj.module.login.model.LoginRequest
  * Created by nodream on 2017/11/27.
  */
 interface LoginContract {
-    interface View : BaseView{
+    interface View : IBaseView {
         fun isActive():Boolean
         fun getUserNameFormView():String
         fun getPassWordFormView():String
         fun goToHomeView()
     }
-    interface Presenter : BasePresenter{
+    interface Presenter {
         fun login()
         fun loginSuccess()
         fun loginFail(str: String)

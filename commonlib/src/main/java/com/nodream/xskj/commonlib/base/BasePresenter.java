@@ -1,12 +1,33 @@
 package com.nodream.xskj.commonlib.base;
 
-import android.content.Context;
-
 /**
- * Created by nodream on 2017/11/24.
+ * Created by nodream on 2017/12/8.
  */
 
-public interface BasePresenter {
+public class BasePresenter<V extends IBaseView> {
 
-    void start(Context context);
+    private V view;
+
+    /**
+     * 绑定V层
+     * @param view
+     */
+    public void attachView(V view){
+        this.view = view;
+    }
+
+    /**
+     * 解除绑定V层
+     */
+    public void detachView(){
+        view = null;
+    }
+
+    /**
+     * 获取V层
+     * @return
+     */
+    public V getView() {
+        return view;
+    }
 }

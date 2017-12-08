@@ -1,6 +1,7 @@
 package com.nodream.xskj.module.login.presenter
 
 import android.content.Context
+import com.nodream.xskj.commonlib.base.BasePresenter
 import com.nodream.xskj.module.login.LoginContract
 import com.nodream.xskj.module.login.model.LoginModel
 import com.nodream.xskj.module.login.model.LoginRequest
@@ -9,7 +10,9 @@ import com.nodream.xskj.module.login.model.LoginResponse
 /**
  * Created by nodream on 2017/11/27.
  */
-class LoginPresenter(val view: LoginContract.View, private val context: Context) : LoginContract.Presenter, LoginModel.ModelCallBack {
+class LoginPresenter(private val context: Context) : LoginContract.Presenter,
+        BasePresenter<LoginContract.View>(),
+        LoginModel.ModelCallBack {
 
 
     override fun onSuccess(loginResponse: LoginResponse) {
@@ -18,15 +21,12 @@ class LoginPresenter(val view: LoginContract.View, private val context: Context)
 
     private val mLoginModel: LoginModel = LoginModel()
 
-    override fun start(context: Context) {
-
-    }
 
     override fun login() {
 //        view.showProgress(true)
         val mLoginRequest = LoginRequest(view.getUserNameFormView(),
                 view.getPassWordFormView())
-        mLoginModel.postLogin(mLoginRequest, this,context)
+        mLoginModel.postLogin(mLoginRequest, this, context)
     }
 
     override fun loginSuccess() {

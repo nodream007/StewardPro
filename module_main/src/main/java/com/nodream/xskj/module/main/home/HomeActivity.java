@@ -10,6 +10,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.nodream.xskj.commonlib.base.BaseActivity;
 import com.nodream.xskj.commonlib.base.BaseFragment;
+import com.nodream.xskj.commonlib.base.BasePresenter;
 import com.nodream.xskj.module.main.R;
 
 import java.util.ArrayList;
@@ -33,6 +34,11 @@ public class HomeActivity extends BaseActivity implements
                 (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
     @Override
