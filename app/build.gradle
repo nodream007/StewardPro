@@ -34,7 +34,6 @@ dependencies {
     } else {
         implementation project(':module_main')
         implementation project(':module_login')
-        implementation project(':module_my')
         implementation project(':module_steward')
     }
     testImplementation 'junit:junit:4.12'

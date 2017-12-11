@@ -12,6 +12,7 @@ import com.nodream.xskj.commonlib.base.BaseActivity;
 import com.nodream.xskj.commonlib.base.BaseFragment;
 import com.nodream.xskj.commonlib.base.BasePresenter;
 import com.nodream.xskj.module.main.R;
+import com.nodream.xskj.module.main.my.MyFragment;
 
 import java.util.ArrayList;
 
@@ -52,8 +53,8 @@ public class HomeActivity extends BaseActivity implements
             ARouter.getInstance().build("/login/loginactivity").navigation();
         } else if (i == R.id.navigation_my) {
             if (isLogin()) {
-                BaseFragment fragment = (BaseFragment) ARouter.getInstance()
-                        .build("/my/myfragment").navigation();
+                MyFragment fragment = (MyFragment) ARouter.getInstance()
+                        .build("/main/myfragment").navigation();
                 selectItem(fragment);
             } else {
                 ARouter.getInstance().build("/login/singin").navigation();
