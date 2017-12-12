@@ -12,6 +12,7 @@ import com.nodream.xskj.commonlib.base.BaseActivity;
 import com.nodream.xskj.commonlib.base.BaseFragment;
 import com.nodream.xskj.commonlib.base.BasePresenter;
 import com.nodream.xskj.module.main.R;
+import com.nodream.xskj.module.main.home.presenter.HomePresenter;
 import com.nodream.xskj.module.main.my.MyFragment;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
  */
 
 @Route(path = "/main/homeactivity")
-public class HomeActivity extends BaseActivity implements
+public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> implements
         BottomNavigationView.OnNavigationItemSelectedListener{
 
 
@@ -38,8 +39,8 @@ public class HomeActivity extends BaseActivity implements
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected HomePresenter createPresenter() {
+        return new HomePresenter();
     }
 
     @Override

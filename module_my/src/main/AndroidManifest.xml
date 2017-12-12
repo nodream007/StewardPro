@@ -7,8 +7,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.nodream.xskj.my.MyActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 
