@@ -13,6 +13,7 @@ import com.nodream.xskj.commonlib.base.BaseFragment;
 import com.nodream.xskj.commonlib.base.BasePresenter;
 import com.nodream.xskj.module.main.R;
 import com.nodream.xskj.module.main.home.presenter.HomePresenter;
+import com.nodream.xskj.module.main.inqusisition.InquisitionFragment;
 import com.nodream.xskj.module.main.my.MyFragment;
 
 import java.util.ArrayList;
@@ -26,16 +27,29 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
         BottomNavigationView.OnNavigationItemSelectedListener{
 
 
-    private ArrayList<BaseFragment> fragments;
+    private ArrayList<BaseFragment> fragmentList;
+    private HomeFragment homeFragment;
+    private InquisitionFragment inquisitionFragment;
+    private MyFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        homeFragment = (HomeFragment) ARouter.getInstance()
+                .build("/main/homefragment").navigation();
+        fragment = (MyFragment) ARouter.getInstance()
+                .build("/main/myfragment").navigation();
+        inquisitionFragment = (InquisitionFragment) ARouter.getInstance()
+                .build("/main/inquisitionfragment").navigation();
         BottomNavigationView bottomNavigationView =
-                (BottomNavigationView) findViewById(R.id.navigation);
+                findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_work);
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+
+
     }
 
     @Override
@@ -46,16 +60,16 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int i = item.getItemId();
-        if (i == R.id.navigation_home) {
-            HomeFragment homeFragment = (HomeFragment) ARouter.getInstance()
-                    .build("/main/homefragment").navigation();
+        if (i == R.id.navigation_work) {
+//            HomeFragment homeFragment = (HomeFragment) ARouter.getInstance()
+//                    .build("/main/homefragment").navigation();
             selectItem(homeFragment);
-        } else if (i == R.id.navigation_shop) {
-            ARouter.getInstance().build("/login/loginactivity").navigation();
+        } else if (i == R.id.navigation_inquisition) {
+            selectItem(inquisitionFragment);
         } else if (i == R.id.navigation_my) {
             if (isLogin()) {
-                MyFragment fragment = (MyFragment) ARouter.getInstance()
-                        .build("/main/myfragment").navigation();
+//                MyFragment fragment = (MyFragment) ARouter.getInstance()
+//                        .build("/main/myfragment").navigation();
                 selectItem(fragment);
             } else {
                 ARouter.getInstance().build("/login/singin").navigation();

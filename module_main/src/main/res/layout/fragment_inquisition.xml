@@ -5,22 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.nodream.xskj.commonlib.view.SimpleToolbar
-        android:id="@+id/simple_toolbar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?android:attr/actionBarSize"
+        app:title="Title"
+        app:titleTextColor="#ffffff"
         android:background="@color/colorPrimaryDark"
-        android:fitsSystemWindows="true"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp">
-
-    </com.nodream.xskj.commonlib.view.SimpleToolbar>
+        app:subtitle="SubTitle"
+        app:subtitleTextColor="#ffffff">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:text="text"/>
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="首页"
+        android:text="问诊"
         android:layout_gravity="center"
         android:textSize="30sp"/>
 </LinearLayout>

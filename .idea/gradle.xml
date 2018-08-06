@@ -5,15 +5,13 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-4.1" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-4.4" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commonlib" />
-            <option value="$PROJECT_DIR$/module_login" />
             <option value="$PROJECT_DIR$/module_main" />
-            <option value="$PROJECT_DIR$/module_steward" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -110,7 +110,7 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         Utils.checkNotNull(fragment);
         getSupportFragmentManager().beginTransaction()
                 .replace(frameId, fragment, fragment.getClass().getSimpleName())
-                .addToBackStack(fragment.getClass().getSimpleName())
+//                .addToBackStack(fragment.getClass().getSimpleName())
                 .commitAllowingStateLoss();
     }
 

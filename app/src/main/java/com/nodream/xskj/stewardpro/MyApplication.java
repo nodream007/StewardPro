@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.nodream.xskj.commonlib.base.BaseApplication;
 import com.nodream.xskj.commonlib.utils.Utils;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import org.acra.ACRA;
 import org.acra.ReportField;
@@ -48,6 +50,7 @@ public class MyApplication extends BaseApplication {
             ARouter.openLog();
         }
         ARouter.init(this);
+        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
     @Override
