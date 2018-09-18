@@ -25,7 +25,7 @@ import retrofit2.http.Url;
 
 public interface BaseApiService {
 
-    public static final String Base_URL = "http://dsn.apizza.cc/mock/0579e020ad821aa0745ae8625793354c/app/rest/";
+    public static final String Base_URL = "http://api.mingshz.com/mock/100/";
     @GET("{url}")
     Observable<BaseResponse> executeGet(
             @Path("url") String url,

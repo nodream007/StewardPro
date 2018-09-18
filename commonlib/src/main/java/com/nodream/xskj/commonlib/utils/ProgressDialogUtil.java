@@ -1,5 +1,6 @@
 package com.nodream.xskj.commonlib.utils;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 
@@ -17,12 +18,14 @@ public class ProgressDialogUtil {
             progressDialog.setMessage("请稍后");
             progressDialog.setCanceledOnTouchOutside(false);
         }
+        //show dialog
         progressDialog.show();
     }
 
     public static void closeProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
+            progressDialog = null;
         }
     }
 }

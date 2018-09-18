@@ -1,12 +1,16 @@
 <resources>
 
     <!-- Splash Activity theme. -->
-    <style name="SplashTheme" parent="Theme.Design.Light.NoActionBar">
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
     <style name="HomeTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+    <style name="TabLayout.TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
     </style>
 </resources>

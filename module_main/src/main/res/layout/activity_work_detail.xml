@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/work_detail_constraintLy"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".work.WorkDetailActivity">
+
+    <com.nodream.xskj.commonlib.view.SimpleToolbar
+        android:id="@+id/simple_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?android:attr/actionBarSize"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+    </com.nodream.xskj.commonlib.view.SimpleToolbar>
+
+    <TextView
+        android:id="@+id/work_detail_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="葡萄糖注射"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/simple_toolbar"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_product_name" />
+
+    <TextView
+        android:id="@+id/work_detail_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@null"
+        android:gravity="top|left"
+        android:text="发烧38度多了，咳嗽，头晕"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_product_name" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_et" />
+    <TextView
+        android:id="@+id/work_detail_consumables_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="耗材："
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_et" />
+
+    <TextView
+        android:id="@+id/work_detail_consumables"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="静脉针x1\n葡萄糖药水x2\n棉花球x2"
+        android:textSize="16sp"
+        android:textColor="@color/text_s_content"
+        app:layout_constraintStart_toEndOf="@id/work_detail_consumables_t"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_et" />
+
+    <TextView
+        android:id="@+id/work_detail_consumables_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:background="@drawable/button_l_bg_selector"
+        android:textColor="@color/white"
+        android:layout_marginEnd="20dp"
+        android:text="领取耗材"
+        android:elevation="2dp"
+        app:layout_constraintTop_toTopOf="@id/work_detail_consumables"
+        app:layout_constraintBottom_toBottomOf="@id/work_detail_consumables"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_consumables" />
+
+    <TextView
+        android:id="@+id/work_detail_time_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="时间："
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_consumables" />
+
+    <TextView
+        android:id="@+id/work_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="2018-08-07 10:00"
+        android:textSize="16sp"
+        android:textColor="@color/text_s_content"
+        app:layout_constraintStart_toEndOf="@id/work_detail_time_t"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_consumables" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_time_t" />
+
+    <TextView
+        android:id="@+id/work_detail_contact_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="联系人："
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_time_t" />
+
+    <TextView
+        android:id="@+id/work_detail_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="XXX"
+        android:singleLine="true"
+        android:maxEms="10"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textColor="@color/text_s_content"
+        app:layout_constraintStart_toEndOf="@id/work_detail_contact_t"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_time_t" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_contact_t" />
+
+    <TextView
+        android:id="@+id/work_detail_phone_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="电话："
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_contact_t" />
+
+    <TextView
+        android:id="@+id/work_detail_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="XXX"
+        android:textSize="16sp"
+        android:textColor="@color/text_s_content"
+        app:layout_constraintStart_toEndOf="@id/work_detail_phone_t"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_contact_t" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_phone_t" />
+
+    <TextView
+        android:id="@+id/work_detail_addr_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="地址："
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_phone_t" />
+
+    <TextView
+        android:id="@+id/work_detail_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="XXX"
+        android:singleLine="true"
+        android:maxEms="15"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:textColor="@color/text_s_content"
+        app:layout_constraintStart_toEndOf="@id/work_detail_addr_t"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_phone_t" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_addr_t" />
+
+    <ImageView
+        android:id="@+id/work_detail_location_i"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_location"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_addr_t"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:id="@+id/work_detail_location_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="5dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:text="开始定位："
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/work_detail_location_i"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_addr_t" />
+    <TextView
+        android:id="@+id/work_detail_location_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="定位"
+        android:textSize="14sp"
+        android:textColor="#007AFF"
+        app:layout_constraintTop_toTopOf="@id/work_detail_location_t"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/work_detail_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:padding="5dp"
+        android:text="火炬大厦xxxxx"
+        android:textSize="14sp"
+        android:textColor="@color/text_s_content"
+        app:layout_constraintStart_toStartOf="@id/work_detail_location_t"
+        app:layout_constraintTop_toBottomOf="@id/work_detail_location_b" />
+
+    <TextView
+        android:id="@+id/work_detail_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="开始任务"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/button_bg_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+</android.support.constraint.ConstraintLayout>

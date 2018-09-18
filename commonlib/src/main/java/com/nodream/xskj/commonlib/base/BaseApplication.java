@@ -3,6 +3,7 @@ package com.nodream.xskj.commonlib.base;
 import android.app.Application;
 
 import com.nodream.xskj.commonlib.utils.Utils;
+import com.orhanobut.logger.Logger;
 
 
 /**

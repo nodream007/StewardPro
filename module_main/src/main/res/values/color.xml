@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffff</color>
+    <color name="navigation_text">#6CC9DE</color>
+    <color name="navigation_text_n">#999999</color>
 </resources>

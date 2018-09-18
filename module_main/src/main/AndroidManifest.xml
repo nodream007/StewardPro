@@ -1,19 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nodream.xskj.module.main" >
-    <application
-        android:theme="@style/AppTheme">
-        <activity android:name=".splash.SplashActivity"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.nodream.xskj.module.main">
+
+    <application android:theme="@style/AppTheme">
+        <activity
+            android:name=".splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".home.HomeActivity"
+        <activity
+            android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/HomeTheme"/>
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
+        <activity android:name=".work.AddWorkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+
+        <activity android:name=".work.WorkDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+
+        <activity android:name=".information.AddInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="137131bc3e2124f79106a08da06c3b0a"/>
+
+        <service android:name="com.amap.api.location.APSService">
+
+        </service>
     </application>
+
 </manifest>

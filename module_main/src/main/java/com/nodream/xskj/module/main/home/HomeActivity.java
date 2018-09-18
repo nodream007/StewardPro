@@ -10,11 +10,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.nodream.xskj.commonlib.base.BaseActivity;
 import com.nodream.xskj.commonlib.base.BaseFragment;
-import com.nodream.xskj.commonlib.base.BasePresenter;
+import com.nodream.xskj.module.main.contact.ContactFragment;
+import com.nodream.xskj.module.main.information.InformationFragment;
 import com.nodream.xskj.module.main.R;
 import com.nodream.xskj.module.main.home.presenter.HomePresenter;
 import com.nodream.xskj.module.main.inqusisition.InquisitionFragment;
 import com.nodream.xskj.module.main.my.MyFragment;
+import com.nodream.xskj.module.main.work.TaskFragment;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,10 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
     private ArrayList<BaseFragment> fragmentList;
     private HomeFragment homeFragment;
     private InquisitionFragment inquisitionFragment;
-    private MyFragment fragment;
+    private ContactFragment contactFragment;
+    private InformationFragment informationFragment;
+    private TaskFragment taskFragment;
+    private MyFragment myFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,17 +43,21 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
         setContentView(R.layout.activity_home);
         homeFragment = (HomeFragment) ARouter.getInstance()
                 .build("/main/homefragment").navigation();
-        fragment = (MyFragment) ARouter.getInstance()
+        taskFragment = (TaskFragment) ARouter.getInstance()
+                .build("/main/taskfragment").navigation();
+        myFragment = (MyFragment) ARouter.getInstance()
                 .build("/main/myfragment").navigation();
         inquisitionFragment = (InquisitionFragment) ARouter.getInstance()
                 .build("/main/inquisitionfragment").navigation();
+        contactFragment = (ContactFragment) ARouter.getInstance()
+                .build("/main/contactfragment").navigation();
+        informationFragment = (InformationFragment) ARouter.getInstance()
+                .build("/main/informationfragment").navigation();
         BottomNavigationView bottomNavigationView =
                 findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.navigation_work);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-
-
 
     }
 
@@ -63,14 +72,18 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
         if (i == R.id.navigation_work) {
 //            HomeFragment homeFragment = (HomeFragment) ARouter.getInstance()
 //                    .build("/main/homefragment").navigation();
-            selectItem(homeFragment);
+            selectItem(taskFragment);
         } else if (i == R.id.navigation_inquisition) {
             selectItem(inquisitionFragment);
+        } else if (i == R.id.navigation_card) {
+            selectItem(informationFragment);
+        } else if (i == R.id.navigation_directories) {
+            selectItem(contactFragment);
         } else if (i == R.id.navigation_my) {
             if (isLogin()) {
 //                MyFragment fragment = (MyFragment) ARouter.getInstance()
 //                        .build("/main/myfragment").navigation();
-                selectItem(fragment);
+                selectItem(myFragment);
             } else {
                 ARouter.getInstance().build("/login/singin").navigation();
             }
