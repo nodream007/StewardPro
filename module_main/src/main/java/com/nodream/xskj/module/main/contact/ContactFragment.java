@@ -1,6 +1,8 @@
 package com.nodream.xskj.module.main.contact;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,15 +15,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.nodream.xskj.commonlib.base.BaseFragment;
+import com.nodream.xskj.commonlib.net.BaseObserver;
+import com.nodream.xskj.commonlib.net.NetClient;
 import com.nodream.xskj.commonlib.view.SimpleToolbar;
-import com.nodream.xskj.module.main.contact.adapter.SortAdapter;
-import com.nodream.xskj.module.main.contact.model.SortModel;
 import com.nodream.xskj.module.main.R;
+import com.nodream.xskj.module.main.contact.adapter.ContactAdapter;
+import com.nodream.xskj.module.main.contact.model.MedicalStaffBean;
+import com.nodream.xskj.module.main.information.model.InformationService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by nodream on 2017/12/4.
@@ -32,11 +46,12 @@ public class ContactFragment extends BaseFragment {
     private SimpleToolbar mSimpleToolbar;
     private RecyclerView mRecyclerView;
     private WaveSideBar mSideBar;
-    private SortAdapter mAdapter;
+    private ContactAdapter mAdapter;
     private ClearEditText mClearEditText;
 
     private LinearLayoutManager manager;
-    private List<SortModel> mDateList;
+    private List<MedicalStaffBean> mDateList = new ArrayList<>();
+
     private TitleItemDecoration mDecoration;
 
     /**
@@ -57,9 +72,18 @@ public class ContactFragment extends BaseFragment {
         initView(mView);
     }
 
+
+
     private void initView(View view) {
         mSimpleToolbar = view.findViewById(R.id.simple_toolbar);
         mSimpleToolbar.setMainTitle("通讯录");
+        mSimpleToolbar.setRightImgDrawable(0, true);
+        mSimpleToolbar.setRightImgClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build("/main/addinfoactivity").navigation();
+            }
+        });
 
         mRecyclerView = mView.findViewById(R.id.contact_rv);
 
@@ -76,20 +100,12 @@ public class ContactFragment extends BaseFragment {
             }
         });
 
-        mDateList = filledData(getResources().getStringArray(R.array.date));
-        mComparator = new PinyinComparator();
-        // 根据a-z进行排序源数据
-        Collections.sort(mDateList, mComparator);
         //RecyclerView设置manager
         manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new SortAdapter(getContext(), mDateList);
+        mAdapter = new ContactAdapter(getContext(), mDateList);
         mRecyclerView.setAdapter(mAdapter);
-        mDecoration = new TitleItemDecoration(getContext(), mDateList);
-        //如果add两个，那么按照先后顺序，依次渲染。
-        mRecyclerView.addItemDecoration(mDecoration);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
 
         mClearEditText = mView.findViewById(R.id.filter_edit);
@@ -114,32 +130,58 @@ public class ContactFragment extends BaseFragment {
             }
         });
 
+        getPatientList(getContext());
+
     }
 
+    private void getPatientList(Context context) {
+        Map<String,String> map = new HashMap<>();
+        map.put("keyword","");
+        NetClient.getInstance(context).create(InformationService.class)
+                .getContactList("medicalStaff/list",map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<List<MedicalStaffBean>>(context) {
+                    @Override
+                    protected void onSuccess(List<MedicalStaffBean> medicalStaffBeans) {
+//                        mPatientList = patientList;
+                        mDateList = filledData(medicalStaffBeans);
+                        mComparator = new PinyinComparator();
+                        // 根据a-z进行排序源数据
+                        Collections.sort(mDateList, mComparator);
+                        mAdapter.updateList(mDateList);
+
+                        mDecoration = new TitleItemDecoration(getContext(), mDateList);
+                        //如果add两个，那么按照先后顺序，依次渲染。
+                        mRecyclerView.addItemDecoration(mDecoration);
+                        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+                    }
+                });
+
+    }
     /**
      * 为RecyclerView填充数据
      *
-     * @param date
+     * @param mDateList
      * @return
      */
-    private List<SortModel> filledData(String[] date) {
-        List<SortModel> mSortList = new ArrayList<>();
+    private List<MedicalStaffBean> filledData(List<MedicalStaffBean> mDateList) {
+        List<MedicalStaffBean> mSortList = new ArrayList<>();
 
-        for (int i = 0; i < date.length; i++) {
-            SortModel sortModel = new SortModel();
-            sortModel.setName(date[i]);
+        for (int i = 0; i < mDateList.size(); i++) {
+            String name = mDateList.get(i).getName();
             //汉字转换成拼音
-            String pinyin = PinyinUtils.getPingYin(date[i]);
+            String pinyin = PinyinUtils.getPingYin(name);
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             // 正则表达式，判断首字母是否是英文字母
             if (sortString.matches("[A-Z]")) {
-                sortModel.setLetters(sortString.toUpperCase());
+                mDateList.get(i).setLetters(sortString.toUpperCase());
             } else {
-                sortModel.setLetters("#");
+                mDateList.get(i).setLetters("#");
             }
 
-            mSortList.add(sortModel);
+            mSortList.add(mDateList.get(i));
         }
         return mSortList;
 
@@ -151,21 +193,21 @@ public class ContactFragment extends BaseFragment {
      * @param filterStr
      */
     private void filterData(String filterStr) {
-        List<SortModel> filterDateList = new ArrayList<>();
+        List<MedicalStaffBean> filterDateList = new ArrayList<>();
 
         if (TextUtils.isEmpty(filterStr)) {
-            filterDateList = filledData(getResources().getStringArray(R.array.date));
+            filterDateList = filledData(mDateList);
         } else {
             filterDateList.clear();
-            for (SortModel sortModel : mDateList) {
-                String name = sortModel.getName();
+            for (MedicalStaffBean medicalStaffBean : mDateList) {
+                String name = medicalStaffBean.getName();
                 if (name.indexOf(filterStr.toString()) != -1 ||
                         PinyinUtils.getFirstSpell(name).startsWith(filterStr.toString())
                         //不区分大小写
                         || PinyinUtils.getFirstSpell(name).toLowerCase().startsWith(filterStr.toString())
                         || PinyinUtils.getFirstSpell(name).toUpperCase().startsWith(filterStr.toString())
                         ) {
-                    filterDateList.add(sortModel);
+                    filterDateList.add(medicalStaffBean);
                 }
             }
         }

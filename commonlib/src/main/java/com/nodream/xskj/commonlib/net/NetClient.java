@@ -1,8 +1,11 @@
 package com.nodream.xskj.commonlib.net;
 
+import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.nodream.xskj.commonlib.utils.SharedPreferencesUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -34,19 +37,34 @@ public class NetClient {
     private static Retrofit retrofit;
 
     private BaseApiService apiService;
+
+    private SharedPreferencesUtils sharedPreferencesUtils;
+
+    private static Context mContext;
     /**
      * 内部类实现单例模式
      * 延迟加载，减少内存开销
      */
     private static class NetClientHolder {
-        private static NetClient instance = new NetClient();
+        private static NetClient instance = new NetClient(mContext);
     }
 
-    private NetClient() {
+    private NetClient(Context context) {
+        sharedPreferencesUtils = new SharedPreferencesUtils(context);
+        String token = sharedPreferencesUtils.getSharedPreference("token","")
+                .toString().trim();
+        Log.e("token:", token);
+        BaseInterceptor baseInterceptor = new BaseInterceptor.Builder()
+                .addHeaderParam("token", token)
+//                .addHeaderParam("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsImlzcyI6Im1lZGljYWxTdGFmZiIsImlhdCI6MTUzNzQ1MjAzNiwidXNlcm5hbWUiOiJ6aG91bmFuIn0.d6RUSfojW9XH5dfaIgonF1Vk8gS0RN2qCEeGzgpFOE4")
+                .addParam("app_id", "C767115F-0ED0-0001-3451-1DC0D520ECB0")
+                .addParam("app_key", "9aaa8e3fea97081839f7515cb3426359")
+                .build();
         okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(baseInterceptor)
                 .addNetworkInterceptor(
                         new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                             @Override
@@ -65,7 +83,10 @@ public class NetClient {
 
     }
 
-    public static NetClient getInstance() {
+    public static NetClient getInstance(Context context) {
+        if (context != null) {
+            mContext = context;
+        }
         return NetClientHolder.instance;
     }
 

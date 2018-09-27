@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.nodream.xskj.commonlib.utils.ProgressDialogUtil;
 import com.nodream.xskj.commonlib.utils.ToastUtil;
 import com.nodream.xskj.commonlib.view.SimpleToolbar;
 import com.nodream.xskj.module.main.R;
+import com.nodream.xskj.module.main.work.model.ConsumablesBean;
 import com.nodream.xskj.module.main.work.model.TaskBean;
 import com.nodream.xskj.module.main.work.model.WorkBean;
 import com.nodream.xskj.module.main.work.model.WorkResponse;
@@ -51,12 +53,18 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
     private TextView mWorkStart;
     private TextView mWorkConsumables;
     private TextView mWorkConsumablesB;
+    private TextView mLocationB;
+    private TextView mLocationT;
+    private ImageView mLocationI;
     private TextView mWorkLocation;
 
     @Autowired
     public String taskId;
 
     private int taskStatus = 0; //0-初始状态；1-未开始；2-已开始；3-已结束
+
+    private String lng;
+    private String lat;
 
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
@@ -71,6 +79,8 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                     Logger.i("location经度:",amapLocation.getLongitude());
                     //可在其中解析amapLocation获取相应内容。
                     mWorkLocation.setText(amapLocation.getAddress());
+                    lng = String.valueOf(amapLocation.getLongitude());
+                    lat = String.valueOf(amapLocation.getLatitude());
                 }else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError","location Error, ErrCode:"
@@ -90,9 +100,8 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         super.onCreate(savedInstanceState);
         ARouter.getInstance().inject(this);
         setContentView(R.layout.activity_work_detail);
-        initView();
         initLocation();
-        ToastUtil.showToast(this, taskId);
+        initView();
     }
 
     @Override
@@ -144,7 +153,15 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
             }
         });
         mWorkLocation = findViewById(R.id.work_detail_location);
-
+        mLocationB = findViewById(R.id.work_detail_location_b);
+        mLocationB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLocationClient.startLocation();
+            }
+        });
+        mLocationT = findViewById(R.id.work_detail_location_t);
+        mLocationI = findViewById(R.id.work_detail_location_i);
         getTaskDetail(this);
 
     }
@@ -168,15 +185,15 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
-        mLocationClient.startLocation();
+//        mLocationClient.startLocation();
     }
 
     public void getTaskDetail(Context context) {
         ProgressDialogUtil.showProgressDialog(context);
         Map<String,String> map = new HashMap<>();
         map.put("taskId", taskId);
-        NetClient.getInstance().create(WorkService.class)
-                .getTaskDetail("task.detail",map)
+        NetClient.getInstance(context).create(WorkService.class)
+                .getTaskDetail("task/detail",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<TaskBean>(context) {
@@ -188,12 +205,38 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                         mWorkLinkman.setText(taskBean.getLinkman());
                         mWorkLinkMobile.setText(taskBean.getLinkMobile());
                         mWorkServeLocation.setText(taskBean.getServeLocation().getAddress());
+                        for (ConsumablesBean consumablesBean : taskBean.getProduct().getConsumables()) {
+                            String con = consumablesBean.getName() + "✖"
+                                    + consumablesBean.getNum() + "\n";
+                            mWorkConsumables.setText(con);
+                        }
                         if (!taskBean.isReceive()) {
                             mWorkConsumablesB.setEnabled(true);
                             mWorkStart.setEnabled(false);
                         } else {
                             mWorkConsumablesB.setEnabled(false);
                             mWorkStart.setEnabled(true);
+                        }
+                        if (taskBean.getTaskStatus() == 0 ||
+                                taskBean.getTaskStatus() == 1) {
+                            mWorkStart.setEnabled(true);
+                            mWorkStart.setText("开始任务");
+                            taskStatus = 1;
+                            mLocationClient.startLocation();
+                        } else if (taskBean.getTaskStatus() == 2) {
+                            mWorkStart.setEnabled(true);
+                            mWorkStart.setText("结束任务");
+                            mLocationClient.startLocation();
+                            taskStatus = 2;
+                        } else if (taskBean.getTaskStatus() == 3 ||
+                                taskBean.getTaskStatus() == 4) {
+                            mWorkStart.setEnabled(false);
+                            mWorkStart.setText("结束任务");
+                            mLocationB.setVisibility(View.GONE);
+                            mLocationT.setVisibility(View.GONE);
+                            mLocationI.setVisibility(View.GONE);
+                            mWorkLocation.setVisibility(View.GONE);
+                            taskStatus = 3;
                         }
                     }
                 });
@@ -204,8 +247,8 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         ProgressDialogUtil.showProgressDialog(context);
         Map<String,String> map = new HashMap<>();
         map.put("taskId", taskId);
-        NetClient.getInstance().create(WorkService.class)
-                .receiveConsumables("task.receiveConsumables",map)
+        NetClient.getInstance(context).create(WorkService.class)
+                .receiveConsumables("task/receiveConsumables",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(context) {
@@ -223,8 +266,10 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         ProgressDialogUtil.showProgressDialog(context);
         Map<String,String> map = new HashMap<>();
         map.put("taskId", taskId);
-        NetClient.getInstance().create(WorkService.class)
-                .startTask("task.start",map)
+        map.put("lng", "120.221424");//lng 120.221424
+        map.put("lat", "30.210279");//lat 30.210279
+        NetClient.getInstance(context).create(WorkService.class)
+                .startTask("task/start",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(context) {
@@ -242,8 +287,10 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         ProgressDialogUtil.showProgressDialog(context);
         Map<String,String> map = new HashMap<>();
         map.put("taskId", taskId);
-        NetClient.getInstance().create(WorkService.class)
-                .completeTask("task.complete",map)
+        map.put("lng", "120.221424");//lng 120.221424
+        map.put("lat", "30.210279");//lat 30.210279
+        NetClient.getInstance(context).create(WorkService.class)
+                .completeTask("task/complete",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(context) {

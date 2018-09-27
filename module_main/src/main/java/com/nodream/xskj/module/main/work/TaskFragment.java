@@ -150,6 +150,7 @@ public class TaskFragment extends BaseFragment implements WorkCardAdapter.OnItem
         todayTab.setText("今天\n" + nowDay());
         todayTab.setTag(nowDay());
         mTabLayout.addTab(todayTab,2,true);
+        selectDay = nowDay();
 
         TabLayout.Tab tomorrow = mTabLayout.newTab();
         tomorrow.setText("明天\n" + addDay(1));
@@ -204,10 +205,15 @@ public class TaskFragment extends BaseFragment implements WorkCardAdapter.OnItem
         Calendar cal = Calendar.getInstance();
         Map<String,String> map = new HashMap<>();
         int mYear = cal.get(Calendar.YEAR);
-        String searchDay = new StringBuffer().append(mYear).append("/").append(selectDay).toString();
+
+        String month = selectDay.substring(0,2);
+        String day = selectDay.substring(3, 5);
+        String searchDay = new StringBuffer().append(mYear).append("-").append(month)
+                .append("-").append(day).toString();
         map.put("searchDay",searchDay);
-        NetClient.getInstance().create(WorkService.class)
-                .getTaskList("task.list",map)
+//        map.put("searchDay","2018-09-21");
+        NetClient.getInstance(context).create(WorkService.class)
+                .getTaskList("task/list",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<TaskBean>>(context) {

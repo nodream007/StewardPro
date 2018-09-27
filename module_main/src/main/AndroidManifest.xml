@@ -21,19 +21,35 @@
             android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
 
-        <activity android:name=".work.AddWorkActivity"
+        <activity android:name=".work.WorkDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
-
-        <activity android:name=".work.WorkDetailActivity"
+        <activity android:name=".inqusisition.OrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+        </activity>
+        <activity android:name=".inqusisition.OrderAddActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
 
         <activity android:name=".information.AddInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity android:name=".information.InfoDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
+
+        <activity android:name=".information.PatientSelectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustResize">

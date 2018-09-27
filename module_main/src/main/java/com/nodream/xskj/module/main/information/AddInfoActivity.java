@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import com.nodream.xskj.module.main.information.model.TitleItemDecoration;
 import com.nodream.xskj.module.main.work.AddWorkContract;
 import com.nodream.xskj.module.main.work.presenter.AddWorkPresenter;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,20 +54,16 @@ public class AddInfoActivity extends BaseActivity<AddWorkContract.View, AddWorkP
     private EditText mAddInfoAddr;
     private EditText mAddInfoProfession;
 
-    Calendar nowdate = Calendar.getInstance();
-    int mYear = nowdate.get(Calendar.YEAR);
-    int mMonth = nowdate.get(Calendar.MONTH);
-    int mDay = nowdate.get(Calendar.DAY_OF_MONTH);
+    Calendar cal = Calendar.getInstance();
+
     private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            int mYear = year;
-            int mMonth = monthOfYear;
-            int mDay = dayOfMonth;
-            String days;
-            days = new StringBuffer().append(mYear).append("-").append(mMonth).append("-").append(mDay).toString();
-            mAddInfoBirthday.setText(days);
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, monthOfYear);
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDate();
         }
     };
 
@@ -97,7 +95,7 @@ public class AddInfoActivity extends BaseActivity<AddWorkContract.View, AddWorkP
         mSimpleToolbar.setRightTitleClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitPatient(AddInfoActivity.this);
+                checkParam();
             }
         });
 
@@ -108,7 +106,10 @@ public class AddInfoActivity extends BaseActivity<AddWorkContract.View, AddWorkP
         mAddInfoBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(AddInfoActivity.this, onDateSetListener, mYear, mMonth, mDay).show();
+                new DatePickerDialog(AddInfoActivity.this, onDateSetListener,
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
         mAddInfoGender = findViewById(R.id.info_add_gender);
@@ -134,6 +135,44 @@ public class AddInfoActivity extends BaseActivity<AddWorkContract.View, AddWorkP
         });
         builder3.show();// 让弹出框显示
     }
+    private void updateDate(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        mAddInfoBirthday.setText(simpleDateFormat.format(cal.getTime()));
+    }
+    private void checkParam() {
+        boolean cancel = false;
+        View focusView = null;
+        if (TextUtils.isEmpty(mAddInfoName.getText().toString())) {
+            mAddInfoName.setError("姓名不能为空");
+            cancel = true;
+            focusView = mAddInfoName;
+        } else if (TextUtils.isEmpty(mAddInfoMobile.getText().toString())) {
+            mAddInfoMobile.setError("电话不能为空");
+            cancel = true;
+            focusView = mAddInfoMobile;
+        } else if (TextUtils.isEmpty(mAddInfoIdentityCard.getText().toString())) {
+            mAddInfoIdentityCard.setError("身份证号不能为空");
+            cancel = true;
+            focusView = mAddInfoIdentityCard;
+        } else if (TextUtils.isEmpty(mAddInfoBirthday.getText().toString())) {
+            mAddInfoBirthday.setError("生日不能为空");
+            cancel = true;
+            focusView = mAddInfoBirthday;
+        } else if (TextUtils.isEmpty(mAddInfoGender.getText().toString())) {
+            mAddInfoGender.setError("性别不能为空");
+            cancel = true;
+            focusView = mAddInfoGender;
+        } else if (TextUtils.isEmpty(mAddInfoAddr.getText().toString())) {
+            mAddInfoAddr.setError("地址不能为空");
+            cancel = true;
+            focusView = mAddInfoAddr;
+        }
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            submitPatient(this);
+        }
+    }
 
     private void submitPatient(Context context) {
         Map<String,String> map = new HashMap<>();
@@ -149,8 +188,8 @@ public class AddInfoActivity extends BaseActivity<AddWorkContract.View, AddWorkP
             map.put("gender","1");
         }
         map.put("profession",mAddInfoProfession.getText().toString());
-        NetClient.getInstance().create(InformationService.class)
-                .submitPatient("patient.edit",map)
+        NetClient.getInstance(context).create(InformationService.class)
+                .submitPatient("patient/edit",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(context) {

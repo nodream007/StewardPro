@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StewardPro</string>
+    <string name="app_name">暮泰医疗</string>
 
     <string name="crash_toast_text">程序崩溃了！</string>
     <string name="crash_dialog_text">感谢您的支持</string>

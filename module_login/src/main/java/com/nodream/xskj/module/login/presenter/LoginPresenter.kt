@@ -3,6 +3,7 @@ package com.nodream.xskj.module.login.presenter
 import android.content.Context
 import com.nodream.xskj.commonlib.base.BasePresenter
 import com.nodream.xskj.module.login.LoginContract
+import com.nodream.xskj.module.login.model.LoginBean
 import com.nodream.xskj.module.login.model.LoginModel
 import com.nodream.xskj.module.login.model.LoginRequest
 import com.nodream.xskj.module.login.model.LoginResponse
@@ -15,8 +16,11 @@ class LoginPresenter(private val context: Context) : LoginContract.Presenter,
         LoginModel.ModelCallBack {
 
 
-    override fun onSuccess(loginResponse: LoginResponse) {
-        mLoginModel.saveUserId(loginResponse.id)
+    override fun onSuccess(loginResponse: LoginBean) {
+        mLoginModel.saveUserId(context, loginResponse.id)
+        mLoginModel.saveUserName(context,loginResponse.name)
+        mLoginModel.saveToken(context,loginResponse.token)
+        loginSuccess()
     }
 
     private val mLoginModel: LoginModel = LoginModel()

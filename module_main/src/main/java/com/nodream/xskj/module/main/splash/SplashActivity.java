@@ -21,7 +21,8 @@ public class SplashActivity extends BaseActivity<SplashContract.View, SplashPres
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ARouter.getInstance().build("/main/homeactivity").navigation();
+//        ARouter.getInstance().build("/main/homeactivity").navigation();
+        ARouter.getInstance().build("/login/loginactivity").navigation();
 //        startActivity(new Intent(this,HomeActivity.class));
         this.finish();
     }

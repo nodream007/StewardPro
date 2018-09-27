@@ -51,13 +51,15 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
         }
 
         holder.tvName.setText(this.mData.get(position).getName());
-
-        holder.tvName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (mOnItemClickListener != null) {
+            holder.tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
+                    mOnItemClickListener.onItemClick(holder.itemView, holder.getAdapterPosition());
+                }
+            });
+        }
 
     }
 

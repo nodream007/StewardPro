@@ -18,7 +18,7 @@ class RegisterModel : RegisterContract.Model {
         parmsMap["mobile"] = registerRequest.mobile
         parmsMap["password"] = registerRequest.passWord
         parmsMap["verifyCode"] = registerRequest.verCode
-        NetClient.getInstance().create(RegisterService::class.java)
+        NetClient.getInstance(context).create(RegisterService::class.java)
                 .register("user/register", parmsMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

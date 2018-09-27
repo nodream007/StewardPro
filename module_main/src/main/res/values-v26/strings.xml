@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">module_main</string>
+
+    <string name="title_work">任务</string>
+    <string name="title_inquisition">问诊</string>
+    <string name="title_card">资料卡</string>
+    <string name="title_directories">通讯录</string>
+    <string name="title_my">我的</string>
+</resources>

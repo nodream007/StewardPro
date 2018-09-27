@@ -3,10 +3,13 @@
 
     <color name="text_date">#666666</color>
     <color name="text_s_title">#999999</color>
-    <color name="text_s_content">#333333</color>
+    <color name="text_s_content">#222222</color>
+    <color name="text_s_content_click">#007AFF</color>
     <color name="base_bg">#f7f7f9</color>
     <color name="base_line">#F4F4F4</color>
     <color name="white">#ffffff</color>
     <color name="base_blue">#6CC9DE</color>
     <color name="text_title">#030303</color>
+
+    <color name="text_title_hint">#A3A3A3</color>
 </resources>

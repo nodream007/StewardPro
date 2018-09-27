@@ -12,117 +12,133 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/work_card_patient_t"
+            android:id="@+id/order_card_patient_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#666666"
             android:textSize="16sp"
             android:text="病人："/>
+
         <TextView
-            android:id="@+id/work_card_patient"
+            android:id="@+id/order_card_patient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/order_card_patient_t"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@id/order_card_patient_t"
+            android:text="liu"
             android:textColor="#666666"
-            android:layout_toEndOf="@id/work_card_patient_t"
-            android:layout_alignBaseline="@id/work_card_patient_t"
             android:textSize="16sp"
-            android:text="liu"/>
+            android:singleLine="true"
+            android:maxEms="6"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/order_card_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/base_blue"
+            android:layout_toEndOf="@id/order_card_patient"
+            android:layout_alignBaseline="@id/order_card_patient"
+            android:layout_alignParentEnd="true"
+            android:gravity="right"
+            android:paddingEnd="10dp"
+            android:textSize="16sp"
+            android:text="待确认"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
-            android:layout_below="@id/work_card_patient_t"
+            android:layout_below="@id/order_card_patient_t"
             android:background="@color/base_line"/>
+
         <TextView
-            android:id="@+id/work_card_time_title"
+            android:id="@+id/order_card_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_title"
             android:layout_marginTop="15dp"
             android:textSize="14sp"
-            android:layout_below="@id/work_card_patient_t"
+            android:layout_below="@id/order_card_patient_t"
             android:text="时间:"/>
         <TextView
-            android:id="@+id/work_card_time"
+            android:id="@+id/order_card_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_content"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:layout_below="@id/work_card_patient_t"
-            android:layout_toEndOf="@id/work_card_time_title"
-            android:layout_alignBaseline="@id/work_card_time_title"
+            android:layout_toEndOf="@id/order_card_time_title"
+            android:layout_alignBaseline="@id/order_card_time_title"
             android:text="10:00"/>
 
         <TextView
-            android:id="@+id/work_card_task_title"
+            android:id="@+id/order_card_content_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_title"
             android:layout_marginTop="10dp"
             android:textSize="14sp"
-            android:layout_below="@id/work_card_time_title"
-            android:text="任务:"/>
+            android:layout_below="@id/order_card_time_title"
+            android:text="内容:"/>
         <TextView
-            android:id="@+id/work_card_task"
+            android:id="@+id/order_card_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_content"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:layout_below="@id/work_card_time"
-            android:layout_toEndOf="@id/work_card_task_title"
-            android:layout_alignBaseline="@id/work_card_task_title"
+            android:layout_toEndOf="@id/order_card_content_title"
+            android:layout_alignBaseline="@id/order_card_content_title"
             android:singleLine="true"
             android:maxEms="20"
             android:ellipsize="end"
             android:text="葡萄糖注射然完成之后按摩"/>
 
         <TextView
-            android:id="@+id/work_card_addr_title"
+            android:id="@+id/order_card_addr_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_title"
             android:layout_marginTop="10dp"
             android:textSize="14sp"
-            android:layout_below="@id/work_card_task_title"
+            android:layout_below="@id/order_card_content_title"
             android:text="地址:"/>
         <TextView
-            android:id="@+id/work_card_addr"
+            android:id="@+id/order_card_addr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_content"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:layout_below="@id/work_card_task"
-            android:layout_toEndOf="@id/work_card_addr_title"
-            android:layout_alignBaseline="@id/work_card_addr_title"
+            android:layout_toEndOf="@id/order_card_addr_title"
+            android:layout_alignBaseline="@id/order_card_addr_title"
             android:singleLine="true"
             android:maxEms="20"
             android:ellipsize="end"
             android:text="杭州西湖区火炬大山A幢2001"/>
 
         <TextView
-            android:id="@+id/work_card_contact_title"
+            android:id="@+id/order_card_contact_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_title"
             android:layout_marginTop="10dp"
             android:textSize="14sp"
-            android:layout_below="@id/work_card_addr_title"
+            android:layout_below="@id/order_card_addr_title"
             android:text="联系人:"/>
         <TextView
-            android:id="@+id/work_card_contact"
+            android:id="@+id/order_card_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_s_content"
             android:layout_marginStart="10dp"
             android:textSize="16sp"
-            android:layout_below="@id/work_card_task"
-            android:layout_toEndOf="@id/work_card_contact_title"
-            android:layout_alignBaseline="@id/work_card_contact_title"
+            android:layout_toEndOf="@id/order_card_contact_title"
+            android:layout_alignBaseline="@id/order_card_contact_title"
             android:singleLine="true"
-            android:maxLength="6"
+            android:maxLength="20"
             android:ellipsize="end"
             android:text="刘渠成"/>
     </RelativeLayout>

@@ -2,16 +2,18 @@ package com.nodream.xskj.module.login.model
 
 
 /**
- * Created by nodream on 2017/11/30.
+ * Created by nodream on 2018/08/30.
  */
 
 data class LoginResponse(
         var id: Int,
-        var mobile: String,
+        var jobName: String,
+        var username: String,
         var name: String,
-        var nickname: String,
-        var integral: Int,
-        var gold: Double,
-        var invitationCode: String,
-        var locked: Boolean
+        var mobile: String,
+        var medicalStaffType: Int,
+        var skills: String,
+        var starLevel: Int,
+        var level: Int,
+        var token: String
 )

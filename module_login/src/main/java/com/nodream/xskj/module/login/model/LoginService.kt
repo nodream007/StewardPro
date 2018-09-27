@@ -21,5 +21,5 @@ interface LoginService {
     @POST
     fun login(@Url url: String,
             //  @Header("") String authorization,
-              @FieldMap maps: Map<String, String>): Observable<BaseResponse<LoginResponse>>
+              @FieldMap maps: Map<String, String>): Observable<BaseResponse<LoginBean>>
 }

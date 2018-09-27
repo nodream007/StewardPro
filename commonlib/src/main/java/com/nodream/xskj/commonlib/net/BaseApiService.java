@@ -25,7 +25,8 @@ import retrofit2.http.Url;
 
 public interface BaseApiService {
 
-    public static final String Base_URL = "http://api.mingshz.com/mock/100/";
+//    public static final String Base_URL = "http://api.mingshz.com/mock/100/";
+    public static final String Base_URL = "http://120.132.30.130:8039/api/";
     @GET("{url}")
     Observable<BaseResponse> executeGet(
             @Path("url") String url,

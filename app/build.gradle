@@ -33,7 +33,7 @@ dependencies {
         implementation project(':commonlib')
     } else {
         implementation project(':module_main')
-//        implementation project(':module_login')
+        implementation project(':module_login')
 //        implementation project(':module_my')
 //        implementation project(':module_steward')
     }

@@ -5,9 +5,11 @@
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
     <style name="HomeTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
     <style name="TabLayout.TabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>

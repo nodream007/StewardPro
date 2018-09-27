@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.nodream.xskj.module.main.contact.model.MedicalStaffBean;
 import com.nodream.xskj.module.main.contact.model.SortModel;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     private static final String TAG = "TitleItemDecoration";
-    private List<SortModel> mData;
+    private List<MedicalStaffBean> mData;
     private Paint mPaint;
     private Rect mBounds;
 
@@ -30,7 +31,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     private static int mTitleTextSize;
 
 
-    public TitleItemDecoration(Context context, List<SortModel> data) {
+    public TitleItemDecoration(Context context, List<MedicalStaffBean> data) {
         super();
         mData = data;
         mPaint = new Paint();

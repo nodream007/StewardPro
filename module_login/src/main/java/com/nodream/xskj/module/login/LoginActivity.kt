@@ -65,12 +65,7 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginPresenter>(), LoginCo
         })
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
-        login_to_register.setOnClickListener{
-            ARouter.getInstance().build("/login/registeractivity").navigation()
-        }
-        login_back.setOnClickListener{
-            finish()
-        }
+
     }
 
     override fun isActive(): Boolean {
@@ -99,6 +94,8 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginPresenter>(), LoginCo
      * 跳转到主页
      */
     override fun goToHomeView() {
+        ARouter.getInstance().build("/main/homeactivity").navigation()
+        finish()
     }
 
     /**
@@ -126,8 +123,8 @@ class LoginActivity : BaseActivity<LoginContract.View,LoginPresenter>(), LoginCo
             cancel = true
         }
         if (TextUtils.isEmpty(passwordStr)) {
-            username.error = getString(R.string.error_field_password)
-            focusView = username
+            password.error = getString(R.string.error_field_password)
+            focusView = password
             cancel = true
         }
         if (!TextUtils.isEmpty(passwordStr) && !isPasswordValid(passwordStr)) {

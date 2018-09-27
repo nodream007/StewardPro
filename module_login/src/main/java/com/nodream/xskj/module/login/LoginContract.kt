@@ -21,8 +21,9 @@ interface LoginContract {
         fun loginFail(str: String)
     }
     interface Model {
-        fun saveUserId(id: Int)
-        fun saveToken(token: String)
+        fun saveUserId(context: Context, id: Int)
+        fun saveToken(context: Context, token: String)
+        fun saveUserName(context: Context, name: String)
         fun postLogin(loginRequest: LoginRequest, modelCallBack: LoginModel.ModelCallBack, context: Context)
     }
 }

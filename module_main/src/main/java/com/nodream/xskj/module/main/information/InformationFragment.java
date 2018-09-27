@@ -19,6 +19,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.nodream.xskj.commonlib.base.BaseFragment;
 import com.nodream.xskj.commonlib.net.BaseObserver;
 import com.nodream.xskj.commonlib.net.NetClient;
+import com.nodream.xskj.commonlib.utils.ToastUtil;
 import com.nodream.xskj.commonlib.view.SimpleToolbar;
 import com.nodream.xskj.module.main.contact.ClearEditText;
 import com.nodream.xskj.module.main.contact.PinyinUtils;
@@ -232,6 +233,15 @@ public class InformationFragment extends BaseFragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new InformationAdapter(getContext(), mDateList);
+        mAdapter.setOnItemClickListener(new InformationAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                ToastUtil.showToast(getContext(), mDateList.get(position).getId() +"");
+                ARouter.getInstance().build("/main/infodetailactivity")
+                        .withInt("infoPid", mDateList.get(position).getId())
+                        .navigation();
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -264,8 +274,8 @@ public class InformationFragment extends BaseFragment {
     private void getPatientList(Context context) {
         Map<String,String> map = new HashMap<>();
         map.put("keyword","");
-        NetClient.getInstance().create(InformationService.class)
-                .getPatientList("patient.list",map)
+        NetClient.getInstance(context).create(InformationService.class)
+                .getPatientList("patient/list",map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<List<PatientBean>>(context) {

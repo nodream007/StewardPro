@@ -14,7 +14,7 @@ import com.nodream.xskj.module.main.contact.ContactFragment;
 import com.nodream.xskj.module.main.information.InformationFragment;
 import com.nodream.xskj.module.main.R;
 import com.nodream.xskj.module.main.home.presenter.HomePresenter;
-import com.nodream.xskj.module.main.inqusisition.InquisitionFragment;
+import com.nodream.xskj.module.main.inqusisition.OrderFragment;
 import com.nodream.xskj.module.main.my.MyFragment;
 import com.nodream.xskj.module.main.work.TaskFragment;
 
@@ -30,8 +30,8 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
 
 
     private ArrayList<BaseFragment> fragmentList;
-    private HomeFragment homeFragment;
-    private InquisitionFragment inquisitionFragment;
+
+    private OrderFragment orderFragment;
     private ContactFragment contactFragment;
     private InformationFragment informationFragment;
     private TaskFragment taskFragment;
@@ -41,14 +41,12 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        homeFragment = (HomeFragment) ARouter.getInstance()
-                .build("/main/homefragment").navigation();
         taskFragment = (TaskFragment) ARouter.getInstance()
                 .build("/main/taskfragment").navigation();
         myFragment = (MyFragment) ARouter.getInstance()
                 .build("/main/myfragment").navigation();
-        inquisitionFragment = (InquisitionFragment) ARouter.getInstance()
-                .build("/main/inquisitionfragment").navigation();
+        orderFragment = (OrderFragment) ARouter.getInstance()
+                .build("/main/orderfragment").navigation();
         contactFragment = (ContactFragment) ARouter.getInstance()
                 .build("/main/contactfragment").navigation();
         informationFragment = (InformationFragment) ARouter.getInstance()
@@ -74,7 +72,7 @@ public class HomeActivity extends BaseActivity<HomeContract.View,HomePresenter> 
 //                    .build("/main/homefragment").navigation();
             selectItem(taskFragment);
         } else if (i == R.id.navigation_inquisition) {
-            selectItem(inquisitionFragment);
+            selectItem(orderFragment);
         } else if (i == R.id.navigation_card) {
             selectItem(informationFragment);
         } else if (i == R.id.navigation_directories) {

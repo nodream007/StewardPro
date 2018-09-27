@@ -1,7 +1,7 @@
 package com.nodream.xskj.module.main.information.model;
 
 public class PatientBean {
-    private String id;
+    private int id;
     private String name;
     private String mobile;
     private String identityCard;//身份证号
@@ -13,11 +13,11 @@ public class PatientBean {
 
     private String letters;//显示拼音的首字母
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

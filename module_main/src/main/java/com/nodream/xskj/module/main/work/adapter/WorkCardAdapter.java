@@ -9,9 +9,7 @@ import android.widget.TextView;
 import com.nodream.xskj.module.main.R;
 import com.nodream.xskj.module.main.work.model.TaskBean;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,7 +35,7 @@ public class WorkCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_recycler, parent, false);
+                .inflate(R.layout.item_task, parent, false);
         return new RecyclerViewHolder(view);
     }
 
@@ -45,6 +43,20 @@ public class WorkCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
         recyclerViewHolder.tvWorkPatient.setText(dataList.get(position).getPatient().getName());
+        int status = dataList.get(position).getTaskStatus();
+        if (status == 0) {
+            recyclerViewHolder.tvWorkStatus.setText("待指派");
+        } else if (status == 1) {
+            recyclerViewHolder.tvWorkStatus.setText("待服务");
+        } else if (status == 2) {
+            recyclerViewHolder.tvWorkStatus.setText("服务中");
+        } else if (status == 3) {
+            recyclerViewHolder.tvWorkStatus.setText("服务结束");
+            recyclerViewHolder.tvWorkStatus.setTextColor(0xFF999999);
+        } else if (status == 4) {
+            recyclerViewHolder.tvWorkStatus.setText("服务取消");
+            recyclerViewHolder.tvWorkStatus.setTextColor(0xFFFF0000);
+        }
         String time = dataList.get(position).getPlanedStartTime().substring(10,16);
         recyclerViewHolder.tvWorkTime.setText(time);
         recyclerViewHolder.tvWorkName.setText(dataList.get(position).getProduct().getName());
@@ -80,6 +92,7 @@ public class WorkCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tvWorkName;
         TextView tvWorkAddress;
         TextView tvWorkContact;
+        TextView tvWorkStatus;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);
@@ -88,6 +101,7 @@ public class WorkCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvWorkName = itemView.findViewById(R.id.work_card_task);
             tvWorkAddress = itemView.findViewById(R.id.work_card_addr);
             tvWorkContact = itemView.findViewById(R.id.work_card_contact);
+            tvWorkStatus = itemView.findViewById(R.id.work_card_status);
         }
     }
 
