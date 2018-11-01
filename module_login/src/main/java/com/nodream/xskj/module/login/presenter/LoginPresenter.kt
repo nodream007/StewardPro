@@ -1,6 +1,7 @@
 package com.nodream.xskj.module.login.presenter
 
 import android.content.Context
+import android.util.Log
 import com.nodream.xskj.commonlib.base.BasePresenter
 import com.nodream.xskj.module.login.LoginContract
 import com.nodream.xskj.module.login.model.LoginBean
@@ -20,6 +21,7 @@ class LoginPresenter(private val context: Context) : LoginContract.Presenter,
         mLoginModel.saveUserId(context, loginResponse.id)
         mLoginModel.saveUserName(context,loginResponse.name)
         mLoginModel.saveToken(context,loginResponse.token)
+        Log.e("token:", loginResponse.token)
         loginSuccess()
     }
 

@@ -176,9 +176,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="XXX"
         android:textSize="16sp"
-        android:textColor="@color/text_s_content"
+        android:textColor="@color/text_s_title"
         app:layout_constraintStart_toEndOf="@id/work_detail_phone_t"
         app:layout_constraintTop_toBottomOf="@id/work_detail_contact_t" />
 
@@ -262,7 +261,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:padding="5dp"
-        android:text="火炬大厦xxxxx"
         android:textSize="14sp"
         android:textColor="@color/text_s_content"
         app:layout_constraintStart_toStartOf="@id/work_detail_location_t"

@@ -46,6 +46,7 @@ public class OrderDetailActivity extends BaseActivity<AddWorkContract.View, Work
 
     private TextView mOrderPatientName;
     private TextView mOrderPatientDetail;
+    private TextView mOrderAddress;
     private EditText mOrderDetail;
     private TextView mOrderLinkman;
     private TextView mOrderLinkMobile;
@@ -96,7 +97,7 @@ public class OrderDetailActivity extends BaseActivity<AddWorkContract.View, Work
         setContentView(R.layout.activity_order_detail);
         initLocation();
         initView();
-        ToastUtil.showToast(this, orderId);
+//        ToastUtil.showToast(this, orderId);
     }
 
     @Override
@@ -124,6 +125,8 @@ public class OrderDetailActivity extends BaseActivity<AddWorkContract.View, Work
 
         mOrderPatientName = findViewById(R.id.order_detail_patient_name);
         mOrderPatientDetail = findViewById(R.id.order_detail_patient_detail);
+
+        mOrderAddress = findViewById(R.id.order_detail_address_name);
         mOrderDetail = findViewById(R.id.order_detail_et);
         mOrderLinkman = findViewById(R.id.order_detail_contact);
         mOrderLinkMobile = findViewById(R.id.order_detail_link_phone);

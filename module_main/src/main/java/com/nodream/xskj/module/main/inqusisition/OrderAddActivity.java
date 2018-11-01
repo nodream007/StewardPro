@@ -26,6 +26,7 @@ import com.nodream.xskj.commonlib.view.SimpleToolbar;
 import com.nodream.xskj.module.main.R;
 import com.nodream.xskj.module.main.inqusisition.model.OrderBean;
 import com.nodream.xskj.module.main.inqusisition.model.OrderService;
+import com.nodream.xskj.module.main.location.AddressAddActivity;
 import com.nodream.xskj.module.main.work.AddWorkContract;
 import com.nodream.xskj.module.main.work.presenter.WorkDetailPresenter;
 import com.orhanobut.logger.Logger;
@@ -46,7 +47,9 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
     private SimpleToolbar mSimpleToolbar;
 
     private RelativeLayout mOrderPatientRl;
+    private RelativeLayout mOrderAddressRl;
     private TextView mOrderPatientName;
+    private TextView mOrderAddressName;
     private EditText mOrderDetail;
     private EditText mOrderLinkman;
     private EditText mOrderLinkMobile;
@@ -57,6 +60,20 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
     private String lng;
     private String lat;
 
+    private int provinceId = -1;
+    private String provinceName;
+
+    private int cityId = -1;
+    private String cityName;
+
+    private int districtId = -1;
+    private String districtName;
+
+    private int streetId = -1;
+    private String streetName;
+
+    private String serveAddress;
+
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -65,9 +82,9 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
         public void onLocationChanged(AMapLocation amapLocation) {
             if (amapLocation != null) {
                 if (amapLocation.getErrorCode() == 0) {
-                    Logger.i("locationAddress:",amapLocation.getAddress());
-                    Logger.i("location纬度:",amapLocation.getLatitude());
-                    Logger.i("location经度:",amapLocation.getLongitude());
+                    Log.i("街道-", amapLocation.getStreet());
+                    Log.i("城市编码-", amapLocation.getCityCode());
+                    Log.i("地区编码-", amapLocation.getAdCode());
                     lng = String.valueOf(amapLocation.getLongitude());
                     lat = String.valueOf(amapLocation.getLatitude());
                     //可在其中解析amapLocation获取相应内容。
@@ -113,6 +130,16 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
             patientId = data.getIntExtra("id", -1);
             String name = data.getStringExtra("name");
             mOrderPatientName.setText(name);
+        } else if (requestCode == 200 && resultCode == 1) {
+            provinceId = data.getIntExtra("provinceId", -1);
+            provinceName = data.getStringExtra("provinceName");
+            cityId = data.getIntExtra("cityId", -1);
+            cityName = data.getStringExtra("cityName");
+            districtId = data.getIntExtra("districtId", -1);
+            districtName = data.getStringExtra("districtName");
+            streetId = data.getIntExtra("streetId", -1);
+            serveAddress = data.getStringExtra("serveAddress");
+            mOrderAddressName.setText(serveAddress);
         }
     }
 
@@ -148,20 +175,29 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
                         .navigation(OrderAddActivity.this, 200);
             }
         });
+        mOrderAddressRl = findViewById(R.id.order_add_task_address_rl);
+        mOrderAddressRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build("/main/addressaddactivity")
+                        .navigation(OrderAddActivity.this,200);
+            }
+        });
         mOrderPatientName = findViewById(R.id.order_add_patient_name);
+        mOrderAddressName = findViewById(R.id.order_add_task_address);
         mOrderDetail = findViewById(R.id.order_detail_et);
         mOrderLinkman = findViewById(R.id.order_detail_contact);
         mOrderLinkMobile = findViewById(R.id.order_detail_link_phone);
 
-        mLocationB = findViewById(R.id.work_detail_location_b);
-        mLocationB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //启动定位
-                mLocationClient.startLocation();
-            }
-        });
-        mLocation = findViewById(R.id.order_detail_location);
+//        mLocationB = findViewById(R.id.work_detail_location_b);
+//        mLocationB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //启动定位
+//                mLocationClient.startLocation();
+//            }
+//        });
+//        mLocation = findViewById(R.id.order_detail_location);
 
     }
 
@@ -188,6 +224,13 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
     }
 
     private void checkParams() {
+        if (patientId == -1) {
+            ToastUtil.showToast(OrderAddActivity.this, "请选择病人");
+            return;
+        } else if (provinceId == -1) {
+            ToastUtil.showToast(OrderAddActivity.this, "请选择服务地址");
+            return;
+        }
         boolean cancel = false;
         View focusView = null;
         if (TextUtils.isEmpty(mOrderDetail.getText().toString())) {
@@ -212,24 +255,24 @@ public class OrderAddActivity extends BaseActivity<AddWorkContract.View, WorkDet
 
     public void completeOrder(Context context) {
         Map<String,String> map = new HashMap<>();
-        Logger.e(patientId + "");
-        if (patientId != -1) {
-            map.put("patientId", Integer.toString(patientId));
-        } else {
-            ToastUtil.showToast(OrderAddActivity.this, "请选择病人");
-            return;
-        }
+        map.put("patientId", Integer.toString(patientId));
         map.put("illnessDesc", mOrderDetail.getText().toString());
         map.put("linkman", mOrderLinkman.getText().toString());
         map.put("linkMobile", mOrderLinkMobile.getText().toString());
         map.put("serveLocation", mLocation.getText().toString());
-        if (lng != null && !lng.equals("")) {
-            map.put("lng", lng);
-            map.put("lat", lat);
-        } else {
-            ToastUtil.showToast(OrderAddActivity.this, "请重新定位");
-            return;
-        }
+        map.put("lng", lng);
+        map.put("lat", lat);
+        // 新增服务地址
+        map.put("province", provinceName);
+        map.put("provinceCode", Integer.toString(provinceId));
+        map.put("city", cityName);
+        map.put("cityCode", Integer.toString(cityId));
+        map.put("district", districtName);
+        map.put("districtCode", Integer.toString(districtId));
+        map.put("county", streetName);
+        map.put("countyCode", Integer.toString(streetId));
+        map.put("serveAddress", serveAddress);
+
         ProgressDialogUtil.showProgressDialog(context);
         NetClient.getInstance(context).create(OrderService.class)
                 .completeOrder("order/create",map)

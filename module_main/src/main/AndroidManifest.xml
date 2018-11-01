@@ -14,54 +14,59 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.WorkDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
-
-        <activity android:name=".work.WorkDetailActivity"
+        <activity
+            android:name=".inqusisition.OrderDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
-        <activity android:name=".inqusisition.OrderDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".inqusisition.OrderAddActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
-        <activity android:name=".inqusisition.OrderAddActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".information.AddInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
-
-        <activity android:name=".information.AddInfoActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".information.InfoDetailActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-        <activity android:name=".information.InfoDetailActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".information.PatientSelectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:configChanges="orientation|keyboardHidden">
-        </activity>
-
-        <activity android:name=".information.PatientSelectActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".contact.ContactDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".location.AddressAddActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"/>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="137131bc3e2124f79106a08da06c3b0a"/>
+            android:value="137131bc3e2124f79106a08da06c3b0a" />
 
-        <service android:name="com.amap.api.location.APSService">
+        <service android:name="com.amap.api.location.APSService"></service>
 
-        </service>
     </application>
 
 </manifest>

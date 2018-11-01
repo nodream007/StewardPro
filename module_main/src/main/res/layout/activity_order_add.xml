@@ -57,6 +57,39 @@
         android:background="#F4F4F4"
         app:layout_constraintTop_toBottomOf="@id/order_add_patient_name_rl" />
 
+    <RelativeLayout
+        android:id="@+id/order_add_task_address_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/order_add_patient_name_rl">
+        <TextView
+            android:id="@+id/order_add_task_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择服务地址"
+            android:textSize="16sp"
+            android:textColor="@color/text_s_content"
+            android:padding="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_right_b"
+            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4"
+        app:layout_constraintTop_toBottomOf="@id/order_add_task_address_rl" />
+
     <EditText
         android:id="@+id/order_detail_et"
         android:layout_width="match_parent"
@@ -68,7 +101,7 @@
         android:paddingTop="5dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
-        app:layout_constraintTop_toBottomOf="@id/order_add_patient_name_rl" />
+        app:layout_constraintTop_toBottomOf="@id/order_add_task_address_rl" />
 
     <TextView
         android:layout_width="match_parent"
@@ -145,7 +178,7 @@
         android:background="#F4F4F4"
         app:layout_constraintTop_toBottomOf="@id/order_detail_link_phone_t" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/work_detail_location_i"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -189,6 +222,6 @@
         android:textSize="14sp"
         android:textColor="@color/text_s_content"
         app:layout_constraintStart_toStartOf="@id/work_detail_location_t"
-        app:layout_constraintTop_toBottomOf="@id/work_detail_location_b" />
+        app:layout_constraintTop_toBottomOf="@id/work_detail_location_b" />-->
 
 </android.support.constraint.ConstraintLayout>

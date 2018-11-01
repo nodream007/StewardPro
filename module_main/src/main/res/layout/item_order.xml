@@ -96,28 +96,7 @@
             android:ellipsize="end"
             android:text="葡萄糖注射然完成之后按摩"/>
 
-        <TextView
-            android:id="@+id/order_card_addr_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_s_title"
-            android:layout_marginTop="10dp"
-            android:textSize="14sp"
-            android:layout_below="@id/order_card_content_title"
-            android:text="地址:"/>
-        <TextView
-            android:id="@+id/order_card_addr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_s_content"
-            android:layout_marginStart="10dp"
-            android:textSize="16sp"
-            android:layout_toEndOf="@id/order_card_addr_title"
-            android:layout_alignBaseline="@id/order_card_addr_title"
-            android:singleLine="true"
-            android:maxEms="20"
-            android:ellipsize="end"
-            android:text="杭州西湖区火炬大山A幢2001"/>
+
 
         <TextView
             android:id="@+id/order_card_contact_title"
@@ -126,7 +105,7 @@
             android:textColor="@color/text_s_title"
             android:layout_marginTop="10dp"
             android:textSize="14sp"
-            android:layout_below="@id/order_card_addr_title"
+            android:layout_below="@id/order_card_content"
             android:text="联系人:"/>
         <TextView
             android:id="@+id/order_card_contact"
@@ -141,5 +120,25 @@
             android:maxLength="20"
             android:ellipsize="end"
             android:text="刘渠成"/>
+
+        <TextView
+            android:id="@+id/order_card_addr_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_s_title"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:layout_below="@id/order_card_contact"
+            android:text="地址:"/>
+        <TextView
+            android:id="@+id/order_card_addr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_s_content"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            android:layout_toEndOf="@id/order_card_addr_title"
+            android:layout_alignBaseline="@id/order_card_addr_title"
+            android:text="杭州西湖区火炬大山A幢2001"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

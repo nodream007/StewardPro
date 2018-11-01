@@ -1,6 +1,8 @@
 package com.nodream.xskj.module.main.work;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -132,6 +134,12 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         mWorkTime = findViewById(R.id.work_detail_time);
         mWorkLinkman = findViewById(R.id.work_detail_contact);
         mWorkLinkMobile = findViewById(R.id.work_detail_phone);
+        mWorkLinkMobile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                diallPhone((String) v.getTag(0));
+            }
+        });
         mWorkServeLocation = findViewById(R.id.work_detail_addr);
         mWorkStart = findViewById(R.id.work_detail_start);
         mWorkStart.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +195,17 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         //启动定位
 //        mLocationClient.startLocation();
     }
+    /**
+     * 拨打电话（跳转到拨号界面，用户手动点击拨打）
+     *
+     * @param phoneNum 电话号码
+     */
+    public void diallPhone(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
+    }
 
     public void getTaskDetail(Context context) {
         ProgressDialogUtil.showProgressDialog(context);
@@ -204,9 +223,10 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                         mWorkTime.setText(taskBean.getStartTime());
                         mWorkLinkman.setText(taskBean.getLinkman());
                         mWorkLinkMobile.setText(taskBean.getLinkMobile());
+                        mWorkLinkMobile.setTag(0, taskBean.getLinkMobile());
                         mWorkServeLocation.setText(taskBean.getServeLocation().getAddress());
                         for (ConsumablesBean consumablesBean : taskBean.getProduct().getConsumables()) {
-                            String con = consumablesBean.getName() + "✖"
+                            String con = consumablesBean.getName() + "x"
                                     + consumablesBean.getNum() + "\n";
                             mWorkConsumables.setText(con);
                         }
@@ -215,20 +235,22 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                             mWorkStart.setEnabled(false);
                         } else {
                             mWorkConsumablesB.setEnabled(false);
+                            mWorkConsumablesB.setText("已领取");
                             mWorkStart.setEnabled(true);
+                            if (taskBean.getTaskStatus() == 0 ||
+                                    taskBean.getTaskStatus() == 1) {
+//                                mWorkStart.setEnabled(true);
+                                mWorkStart.setText("开始任务");
+                                taskStatus = 1;
+                                mLocationClient.startLocation();
+                            } else if (taskBean.getTaskStatus() == 2) {
+//                                mWorkStart.setEnabled(true);
+                                mWorkStart.setText("结束任务");
+                                mLocationClient.startLocation();
+                                taskStatus = 2;
+                            }
                         }
-                        if (taskBean.getTaskStatus() == 0 ||
-                                taskBean.getTaskStatus() == 1) {
-                            mWorkStart.setEnabled(true);
-                            mWorkStart.setText("开始任务");
-                            taskStatus = 1;
-                            mLocationClient.startLocation();
-                        } else if (taskBean.getTaskStatus() == 2) {
-                            mWorkStart.setEnabled(true);
-                            mWorkStart.setText("结束任务");
-                            mLocationClient.startLocation();
-                            taskStatus = 2;
-                        } else if (taskBean.getTaskStatus() == 3 ||
+                        if (taskBean.getTaskStatus() == 3 ||
                                 taskBean.getTaskStatus() == 4) {
                             mWorkStart.setEnabled(false);
                             mWorkStart.setText("结束任务");
@@ -255,6 +277,7 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                     @Override
                     protected void onSuccess(String response) {
                             mWorkConsumablesB.setEnabled(false);
+                            mWorkConsumablesB.setText("已领取");
                             mWorkStart.setEnabled(true);
                             taskStatus = 1;
                             ToastUtil.showToast(WorkDetailActivity.this, "领取成功");
@@ -266,8 +289,8 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         ProgressDialogUtil.showProgressDialog(context);
         Map<String,String> map = new HashMap<>();
         map.put("taskId", taskId);
-        map.put("lng", "120.221424");//lng 120.221424
-        map.put("lat", "30.210279");//lat 30.210279
+        map.put("lng", lng);//lng 120.221424
+        map.put("lat", lat);//lat 30.210279
         NetClient.getInstance(context).create(WorkService.class)
                 .startTask("task/start",map)
                 .subscribeOn(Schedulers.io())
@@ -276,6 +299,7 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                     @Override
                     protected void onSuccess(String response) {
                         mWorkConsumablesB.setEnabled(false);
+                        mWorkConsumablesB.setText("已领取");
                         mWorkStart.setEnabled(true);
                         mWorkStart.setText("结束任务");
                         taskStatus = 2;
@@ -287,8 +311,8 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
         ProgressDialogUtil.showProgressDialog(context);
         Map<String,String> map = new HashMap<>();
         map.put("taskId", taskId);
-        map.put("lng", "120.221424");//lng 120.221424
-        map.put("lat", "30.210279");//lat 30.210279
+        map.put("lng", lng);//lng 120.221424
+        map.put("lat", lat);//lat 30.210279
         NetClient.getInstance(context).create(WorkService.class)
                 .completeTask("task/complete",map)
                 .subscribeOn(Schedulers.io())
@@ -297,8 +321,10 @@ public class WorkDetailActivity extends BaseActivity<AddWorkContract.View, WorkD
                     @Override
                     protected void onSuccess(String response) {
                         mWorkConsumablesB.setEnabled(false);
+                        mWorkConsumablesB.setText("已领取");
                         mWorkStart.setEnabled(false);
                         taskStatus = 3;
+                        WorkDetailActivity.this.finish();
                     }
                 });
     }

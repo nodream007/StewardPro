@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -51,6 +52,8 @@ public class TaskFragment extends BaseFragment implements WorkCardAdapter.OnItem
     private RecyclerView mRecyclerView;
     private LoadMoreWrapper loadMoreWrapper;
 
+    private LinearLayout mLlNull;
+
     private String selectDay;
 
     private List<TaskBean> products = new ArrayList<>();
@@ -69,6 +72,8 @@ public class TaskFragment extends BaseFragment implements WorkCardAdapter.OnItem
         mTabLayout = mView.findViewById(R.id.fm_task_tl);
         mSimpleToolbar.setMainTitle("任务");
         initTab();
+
+        mLlNull = mView.findViewById(R.id.fm_task_ll_null);
 
         mRecyclerView = mView.findViewById(R.id.fm_task_rv);
         swipeRefreshLayout = mView.findViewById(R.id.swipe_refresh_layout);
@@ -219,9 +224,17 @@ public class TaskFragment extends BaseFragment implements WorkCardAdapter.OnItem
                 .subscribe(new BaseObserver<List<TaskBean>>(context) {
                     @Override
                     protected void onSuccess(List<TaskBean> taskBeans) {
+                        if (taskBeans.size() == 0) {
+                            mLlNull.setVisibility(View.VISIBLE);
+                            swipeRefreshLayout.setVisibility(View.GONE);
+                        } else {
+                            mLlNull.setVisibility(View.GONE);
+                            swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        }
                         products.clear();
                         products.addAll(taskBeans);
                         loadMoreWrapper.notifyDataSetChanged();
+
                     }
                 });
 

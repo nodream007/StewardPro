@@ -11,6 +11,7 @@ public class MedicalStaffBean {
     private int starLevel;
     private int level;
     private String letters;//显示拼音的首字母
+    private PointBean point;
 
     public int getId() {
         return id;
@@ -90,5 +91,13 @@ public class MedicalStaffBean {
 
     public void setLetters(String letters) {
         this.letters = letters;
+    }
+
+    public PointBean getPoint() {
+        return point;
+    }
+
+    public void setPoint(PointBean point) {
+        this.point = point;
     }
 }

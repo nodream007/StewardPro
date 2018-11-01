@@ -52,12 +52,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
         holder.tvName.setText(this.mData.get(position).getName());
 
-        holder.tvName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.tvName.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(mContext, mData.get(position).getName(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

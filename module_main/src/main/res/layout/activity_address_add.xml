@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".location.AddressAddActivity"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <com.nodream.xskj.commonlib.view.SimpleToolbar
+        android:id="@+id/simple_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?android:attr/actionBarSize"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+    </com.nodream.xskj.commonlib.view.SimpleToolbar>
+
+    <RelativeLayout
+        android:id="@+id/address_add_regions_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/simple_toolbar">
+        <TextView
+            android:id="@+id/address_add_regions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="省、市、区"
+            android:textSize="16sp"
+            android:textColor="@color/text_s_content"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:maxEms="15"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_right_b"
+            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4" />
+
+    <RelativeLayout
+        android:id="@+id/address_add_street_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/simple_toolbar">
+        <TextView
+            android:id="@+id/address_add_street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="街道"
+            android:textSize="16sp"
+            android:textColor="@color/text_s_content"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:maxEms="15"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_right_b"
+            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="#F4F4F4" />
+    <EditText
+        android:id="@+id/address_detail_et"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@null"
+        android:gravity="top|left"
+        android:hint="请输入详细地址，如A小区1幢101室"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp" />
+
+
+</LinearLayout>

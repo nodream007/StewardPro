@@ -77,13 +77,6 @@ public class ContactFragment extends BaseFragment {
     private void initView(View view) {
         mSimpleToolbar = view.findViewById(R.id.simple_toolbar);
         mSimpleToolbar.setMainTitle("通讯录");
-        mSimpleToolbar.setRightImgDrawable(0, true);
-        mSimpleToolbar.setRightImgClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ARouter.getInstance().build("/main/addinfoactivity").navigation();
-            }
-        });
 
         mRecyclerView = mView.findViewById(R.id.contact_rv);
 
@@ -105,6 +98,14 @@ public class ContactFragment extends BaseFragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new ContactAdapter(getContext(), mDateList);
+        mAdapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ARouter.getInstance().build("/main/contactdetailactivity")
+                        .withInt("contactPid", mDateList.get(position).getId())
+                        .navigation();
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
 
 
